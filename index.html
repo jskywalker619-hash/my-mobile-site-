@@ -3,271 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DrillCaddie - Fix Your Golf Swing</title>
+    <title>DrillCaddie - Fix Your Swing</title>
     <style>
-        /* Modern CSS Reset & Variables */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary-green: #2ecc71;
-            --dark-green: #27ae60;
-            --dark-bg: #1e272e;
-            --light-bg: #f5f6fa;
-            --text-dark: #2f3640;
-            --text-light: #ffffff;
-        }
-
+        /* Mobile-First Styling */
         body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 15px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            color: #1b4332; /* Golf Green */
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .selector-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        /* App Containers */
-        .page {
-            display: none; /* Hidden by default, controlled by JS */
-            width: 100%;
-            max-width: 500px;
-            padding: 2rem;
-            background: var(--text-light);
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .active {
-            display: block; /* Show active page */
-        }
-
-        /* Typography */
-        h1 {
-            font-size: 2.5rem;
-            color: var(--dark-bg);
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        h1 span {
-            color: var(--primary-green);
-        }
-
-        p.tagline {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            margin-bottom: 2rem;
-            line-height: 1.4;
-        }
-
-        h2 {
-            margin-bottom: 1.5rem;
-            color: var(--dark-bg);
-        }
-
-        /* Forms & Inputs */
-        .form-group {
-            margin-bottom: 1.2rem;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-bg);
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #dcdde1;
+        /* Large, easy-to-tap buttons for the practice range */
+        .flaw-btn {
+            background-color: #ffffff;
+            border: 2px solid #1b4332;
+            color: #1b4332;
+            padding: 15px;
             border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--primary-green);
-        }
-
-        textarea {
-            resize: none;
-            height: 100px;
-            margin-bottom: 1rem;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            width: 100%;
-            padding: 0.9rem;
-            background-color: var(--primary-green);
-            color: var(--text-light);
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-        }
-
-        .btn:hover {
-            background-color: var(--dark-green);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        /* AI Results Box */
-        .results-box {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background-color: #ebfcf2;
-            border-left: 5px solid var(--primary-green);
-            border-radius: 4px;
+            transition: all 0.2s ease;
             text-align: left;
-            display: none;
+            padding-left: 20px;
         }
 
-        .results-box h3 {
-            color: var(--dark-green);
-            margin-bottom: 0.5rem;
+        .flaw-btn.active {
+            background-color: #1b4332;
+            color: #ffffff;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .drill-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: none; /* Hidden until a button is clicked */
+            margin-bottom: 30px;
+        }
+
+        .video-placeholder {
+            background-color: #e5e7eb;
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .gear-section {
+            margin-top: 25px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 20px;
+        }
+
+        .gear-section h3 {
+            font-size: 18px;
+            color: #1b4332;
+            margin-top: 0;
+        }
+
+        .gear-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .gear-title {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .amazon-btn {
+            display: block;
+            text-align: center;
+            background-color: #ff9900; /* Amazon Orange */
+            color: #111;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <!-- PAGE 1: HOMEPAGE -->
-    <div id="homepage" class="page active">
-        <h1>Drill<span>Caddie</span></h1>
-        <p class="tagline">“the app that can fix your swing, just describe the problem.”</p>
-        <button class="btn" onclick="navigateTo('loginPage')">Login to Get Started</button>
+    <header>
+        <h1>DrillCaddie</h1>
+        <p>Select your miss to get an instant fix.</p>
+    </header>
+
+    <!-- 1. Expanded Swing Flaw Selector Buttons (No Emojis) -->
+    <div class="selector-container">
+        <button class="flaw-btn" onclick="showDrill('shank', this)">I'm Shanking It</button>
+        <button class="flaw-btn" onclick="showDrill('slice', this)">I'm Slicing (Curving Right)</button>
+        <button class="flaw-btn" onclick="showDrill('hook', this)">I'm Hooking (Curving Left)</button>
+        <button class="flaw-btn" onclick="showDrill('chunk', this)">I'm Hitting It Fat / Chunking</button>
+        <button class="flaw-btn" onclick="showDrill('blade', this)">I'm Blading / Thinning It</button>
+        <button class="flaw-btn" onclick="showDrill('whiff', this)">I'm Whiffing / Missing Entirely</button>
     </div>
 
-    <!-- PAGE 2: LOGIN PAGE -->
-    <div id="loginPage" class="page">
-        <h2>Welcome Back</h2>
-        <form id="loginForm" onsubmit="handleLogin(event)">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="btn">Log In</button>
-        </form>
-    </div>
+    <!-- 2. Dynamic Drill Display Area -->
+    <div id="drill-display" class="drill-card">
+        <h2 id="drill-title">Drill Name</h2>
+        <p id="drill-description">Drill instructions go here.</p>
+        
+        <!-- Video placeholder -->
+        <div class="video-placeholder">
+            [ Drill Instruction Video ]
+        </div>
 
-    <!-- PAGE 3: DASHBOARD -->
-    <div id="dashboardPage" class="page">
-        <h2>How can we fix your swing?</h2>
-        <form id="drillForm" onsubmit="generateDrills(event)">
-            <textarea id="swingProblem" placeholder="e.g., I keep shanking it, hit a bladed shot over the green, or hit it off the toe..." required></textarea>
-            <button type="submit" class="btn">Get Fixing Drills</button>
-        </form>
-
-        <!-- Dynamic Output Area -->
-        <div id="results" class="results-box">
-            <h3>Recommended Drills:</h3>
-            <p id="drillOutput"></p>
+        <!-- 3. Dynamic Amazon Affiliate Links Section -->
+        <div class="gear-section">
+            <h3>Recommended Range Tools For This Drill:</h3>
+            <div id="gear-container">
+                <!-- Amazon links injected here -->
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript Data and Logic -->
     <script>
-        // Simple Page Router
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-        }
-
-        // Handle Login Submission
-        function handleLogin(event) {
-            event.preventDefault();
-            navigateTo('dashboardPage');
-        }
-
-        // Expanded Simulated AI Drill Generator
-        function generateDrills(event) {
-            event.preventDefault();
-            const problemText = document.getElementById('swingProblem').value.toLowerCase();
-            const outputBox = document.getElementById('results');
-            const outputText = document.getElementById('drillOutput');
-
-            let drillRecommendation = "";
-
-            // Keyword matching logic including new terms
-            if (problemText.includes('slice')) {
-                drillRecommendation = "<strong>1. The Headcover Drill:</strong> Place a headcover just outside your ball path. If you come over-the-top (causing a slice), you'll hit it. Practice swinging inside it.<br><br><strong>2. Lead-Arm Only:</strong> Take half-swings with just your lead arm to focus on squaring the clubface.";
-            
-            } else if (problemText.includes('hook')) {
-                drillRecommendation = "<strong>1. Preset Impact Drill:</strong> Set up with your hips already slightly open. This prevents your hands from flipping over too early.<br><br><strong>2. Wide Stance Drill:</strong> Widen your stance to limit excessive hip slide and encourage steady rotation.";
-            
-            } else if (problemText.includes('fat') || problemText.includes('chunky') || problemText.includes('chunk')) {
-                drillRecommendation = "<strong>1. The Towel Drill:</strong> Place a golf towel 4 inches behind the ball. Hit the ball cleanly without catching the towel. This fixes a 'chunky' shot by forcing a downward strike.<br><br><strong>2. Forward Weight Shift:</strong> Ensure 60% of your weight moves onto your lead foot at impact so you don't hit the ground early.";
-            
-            } else if (problemText.includes('thin') || problemText.includes('top') || problemText.includes('skinned') || problemText.includes('bladed')) {
-                drillRecommendation = "<strong>1. The Coin Drill:</strong> Place a coin directly in front of your ball. Focus entirely on clipping that coin off the turf *after* striking the ball. This stops you from skulling, skinning, or blading it.<br><br><strong>2. Keep Your Spine Angle:</strong> Avoid standing up mid-swing. Keep your chest facing down through impact.";
-            
-            } else if (problemText.includes('shank')) {
-                drillRecommendation = "<strong>1. Two-Ball Gate Drill:</strong> Set up two golf balls side by side, just wide enough for your clubhead to fit between. Address the inner ball, but swing and hit the outer ball (or vice-versa). This teaches you to stop pushing the hosel forward into the ball.<br><br><strong>2. Balance Check:</strong> Avoid leaning onto your toes during the downswing, which pushes the club too far out.";
-            
-            } else if (problemText.includes('toe')) {
-                drillRecommendation = "<strong>1. Object Outside the Toe Drill:</strong> Place a water bottle or headcover just half an inch outside the toe of your club at address. Practice hitting balls without striking the object. This forces you to extend outward instead of pulling inside into the toe.<br><br><strong>2. Posture Extension:</strong> Make sure you aren't pulling your hips back away from the ball during impact.";
-            
-            } else if (problemText.includes('whiff')) {
-                drillRecommendation = "<strong>1. The Tee Height Drill:</strong> Tee up a ball high and practice taking slow, 50% speed swings. Focus entirely on keeping your eyes fixed on the back of the ball. Whiffs usually come from lifting up or completely losing spatial awareness.<br><br><strong>2. Feet-Together Drill:</strong> Hit balls with your feet completely together to master your center of gravity and balance.";
-            
-            } else {
-                // Default fallback response
-                drillRecommendation = "<strong>1. Alignment Stick Drill:</strong> Lay a stick along your target line to guarantee your stance and shoulders are square.<br><br><strong>2. The 3-to-1 Tempo Drill:</strong> Count '1-2-3' on your backswing and '1' through impact to get your swing back in perfect rhythm.";
+        // Expanded database of 6 drills and their specific tools
+        const drillsData = {
+            shank: {
+                title: "The Alignment Stick Gate Drill",
+                description: "Place an alignment stick just outside your golf ball, parallel to your target line. Focus on swinging through the gate without striking the stick. This forces your path back inside to eliminate the hosel rocket.",
+                gear: [
+                    {
+                        name: "Golf Alignment Sticks (2-Pack)",
+                        link: "https://amzn.to/4v1BY9T"
+                    },
+                    {
+                        name: "Premium Golf Impact Tape (See face contact)",
+                        link: "https://amzn.to/3ReMdsN"
+                    }
+                ]
+            },
+            slice: {
+                title: "The Headcover Object Drill",
+                description: "Place your driver headcover roughly 4 inches outside and slightly behind your ball. If you come over-the-top (the classic slice swing), you will hit the headcover. Swing inside it to force a proper inside-out path.",
+                gear: [
+                    {
+                        name: "Golf Alignment & Path Training Sticks",
+                        link: "https://amzn.to/49E0x4g"
+                    }
+                ]
+            },
+            hook: {
+                title: "The Open Face Grip Check",
+                description: "Hooks usually happen from a hyper-active closed clubface or coming way too far from the inside. Neutralize your grip by ensuring the 'V' shapes formed by your thumbs point toward your trailing shoulder, and practice hitting soft fades.",
+                gear: [
+                    {
+                        name: "Golf Grip Trainer Attachment",
+                        link: "https://amzn.to/3PACLPM"
+                    }
+                ]
+            },
+            chunk: {
+                title: "The Towel Low-Point Drill",
+                description: "Lay a flat golf towel flat on the grass roughly 3 to 4 inches behind your golf ball. Practice taking your swing. If you hit the towel, your club is bottoming out too early. Your goal is to miss the towel and strike the ball cleanly first.",
+                gear: [
+                    {
+                        name: "Microfiber Golf Towel Set",
+                        link: "https://amzn.to/3R8biWm"
+                    },
+                    {
+                        name: "Golf Divot Dynamic Tracking Mat",
+                        link: "https://amzn.to/49UE9DM"
+                    }
+                ]
+            },
+            blade: {
+                title: "The Coin Strike Drill",
+                description: "Place a flat coin exactly two inches in front of your golf ball. Your goal is to crisp the ball cleanly and make sure your club head divot strikes or moves the coin after impact.",
+                gear: [
+                    {
+                        name: "Heavy-Duty Golf Practice Impact Mat",
+                        link: "https://amzn.to/4dQQSK7"
+                    }
+                ]
+            },
+            whiff: {
+                title: "The Tee Height Consistency Drill",
+                description: "Push a tee completely flush with the ground. Practice clipping the top of the tee without a ball. If you miss the tee entirely, your posture or depth is changing during the swing.",
+                gear: [
+                    {
+                        name: "pro plastic golf tees (100pcs)",
+                        link: "https://amzn.to/4wBoOSx"
+                    }
+                ]
             }
+        };
 
-            // Display results
-            outputText.innerHTML = drillRecommendation;
-            outputBox.style.display = 'block';
+        function showDrill(flawKey, clickedButton) {
+            const drill = drillsData[flawKey];
+            
+            document.getElementById("drill-title").innerText = drill.title;
+            document.getElementById("drill-description").innerText = drill.description;
+            
+            const gearContainer = document.getElementById("gear-container");
+            gearContainer.innerHTML = "";
+            
+            drill.gear.forEach(item => {
+                const gearHTML = `
+                    <div class="gear-card">
+                        <p class="gear-title">${item.name}</p>
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="amazon-btn">
+                            View Tool on Amazon ➔
+                        </a>
+                    </div>
+                `;
+                gearContainer.innerHTML += gearHTML;
+            });
+            
+            document.getElementById("drill-display").style.display = "block";
+            
+            const buttons = document.querySelectorAll('.flaw-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            clickedButton.classList.add('active');
+
+            document.getElementById("drill-display").scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
 </html>
-<a href="https://amzn.to/4dtsaOv"/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Ailment sticks
-</a>
-<a href="https://www.amazon.com/dp/B0DBH2VPRV/ref=cm_sw_r_as_gl_api_gl_i_HTXR8XYGGJM457N43RR7?linkCode=ml1&tag=dc619-20&linkId=a251b1fbbb67c77bb4d725205aa40713"/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Putting greens 
-</a>
-<a href="https://amzn.to/4nAeZzX"/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Swing trainer
-</a>
-<a href="https://www.amazon.com/dp/B0FJ8PM5JD/ref=cm_sw_r_as_gl_api_gl_i_XXQWSN35SJYCD8R4X3PZ?linkCode=ml1&tag=dc619-20&linkId=41ecd565514e944423955d191071ed5c/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Golf net
-</a>
-<a href="https://www.amazon.com/dp/B07T91KFMP/ref=cm_sw_r_as_gl_api_gl_i_AWBZ9MMR5Z8TXNZBQ3H7?linkCode=ml1&tag=dc619-20&linkId=9fb24dfa3a74da8f4d3965e52889c7cc/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Launch monitor
-</a>
-<a href="https://amzn.to/49r2dyf/dp/B0XXXXX/?tag=drillcaddie-20" target="_blank">
-  Most forgiving driver 
-</a>
