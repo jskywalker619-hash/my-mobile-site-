@@ -61,21 +61,14 @@
             margin-bottom: 30px;
         }
 
-        .video-placeholder {
-            background-color: #e5e7eb;
-            width: 100%;
-            height: 200px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0;
-            color: #666;
-            font-weight: 500;
+        #drill-description {
+            line-height: 1.5;
+            font-size: 15px;
+            margin-bottom: 20px;
         }
 
         .gear-section {
-            margin-top: 25px;
+            margin-top: 20px;
             border-top: 2px dashed #e5e7eb;
             padding-top: 20px;
         }
@@ -133,15 +126,10 @@
         <button class="flaw-btn" onclick="showDrill('whiff', this)">I'm Whiffing / Missing Entirely</button>
     </div>
 
-    <!-- 2. Dynamic Drill Display Area -->
+    <!-- 2. Dynamic Drill Display Area (Video Completely Removed) -->
     <div id="drill-display" class="drill-card">
         <h2 id="drill-title">Drill Name</h2>
         <p id="drill-description">Drill instructions go here.</p>
-        
-        <!-- Video placeholder -->
-        <div class="video-placeholder">
-            [ Drill Instruction Video ]
-        </div>
 
         <!-- 3. Dynamic Amazon Affiliate Links Section -->
         <div class="gear-section">
@@ -154,7 +142,7 @@
 
     <!-- JavaScript Data and Logic -->
     <script>
-        // Expanded database of 6 drills and their specific tools
+        // Expanded database of 6 drills with your live affiliate links
         const drillsData = {
             shank: {
                 title: "The Alignment Stick Gate Drill",
@@ -166,7 +154,7 @@
                     },
                     {
                         name: "Premium Golf Impact Tape (See face contact)",
-                        link: "https://amzn.to/3ReMdsN"
+                        link: "https://amzn.to/3WhiteMdsN"
                     }
                 ]
             },
