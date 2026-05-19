@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DrillCaddie - Fix Your Swing</title>
+    <title>DrillCaddie - Instant Swing Fix</title>
     <style>
-        /* Mobile-First Styling */
+        /* Mobile-First Optimized Styling */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f4f6f8;
@@ -16,7 +16,7 @@
 
         header {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 0 10px 0;
         }
 
         header h1 {
@@ -25,6 +25,16 @@
             font-size: 28px;
         }
 
+        .section-title {
+            font-size: 18px;
+            color: #1b4332;
+            margin: 25px 0 12px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 1. Quick Selector Buttons CSS */
         .selector-container {
             display: flex;
             flex-direction: column;
@@ -32,7 +42,6 @@
             margin-bottom: 20px;
         }
 
-        /* Large, easy-to-tap buttons for the practice range */
         .flaw-btn {
             background-color: #ffffff;
             border: 2px solid #1b4332;
@@ -52,31 +61,102 @@
             color: #ffffff;
         }
 
-        .drill-card {
+        /* 2. Diagnosis Quiz CSS */
+        .quiz-card {
             background: #ffffff;
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: none; /* Hidden until a button is clicked */
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        #drill-description {
-            line-height: 1.5;
+        .quiz-step-title {
             font-size: 15px;
+            color: #4b5563;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .quiz-select {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #ccd3ce;
+            border-radius: 8px;
+            background-color: #fff;
+            margin-bottom: 18px;
+            outline: none;
+            color: #333;
+            font-family: inherit;
+        }
+
+        .quiz-select:focus {
+            border-color: #1b4332;
+        }
+
+        .diagnose-btn {
+            display: block;
+            width: 100%;
+            background-color: #1b4332;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* 3. Output Presentation Display Card */
+        .result-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.12);
+            display: none; 
+            margin-bottom: 40px;
+            border-top: 6px solid #1b4332;
+        }
+
+        .flaw-badge {
+            display: inline-block;
+            background-color: #e2e8f0;
+            color: #1b4332;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .result-section {
             margin-bottom: 20px;
         }
 
-        .gear-section {
-            margin-top: 20px;
-            border-top: 2px dashed #e5e7eb;
-            padding-top: 20px;
+        .result-section h3 {
+            font-size: 14px;
+            color: #1b4332;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 4px;
         }
 
-        .gear-section h3 {
-            font-size: 18px;
-            color: #1b4332;
-            margin-top: 0;
+        .result-section p {
+            line-height: 1.5;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .gear-section {
+            margin-top: 25px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 20px;
         }
 
         .gear-card {
@@ -101,7 +181,7 @@
             text-align: center;
             background-color: #ff9900; /* Amazon Orange */
             color: #111;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
@@ -113,135 +193,229 @@
 
     <header>
         <h1>DrillCaddie</h1>
-        <p>Select your miss to get an instant fix.</p>
+        <p>Real-time fixes for your practice range session.</p>
     </header>
 
-    <!-- 1. Expanded Swing Flaw Selector Buttons (No Emojis) -->
+    <!-- Option A: Direct Miss Buttons -->
+    <div class="section-title">Option 1: Quick Fix Selection</div>
     <div class="selector-container">
-        <button class="flaw-btn" onclick="showDrill('shank', this)">I'm Shanking It</button>
-        <button class="flaw-btn" onclick="showDrill('slice', this)">I'm Slicing (Curving Right)</button>
-        <button class="flaw-btn" onclick="showDrill('hook', this)">I'm Hooking (Curving Left)</button>
-        <button class="flaw-btn" onclick="showDrill('chunk', this)">I'm Hitting It Fat / Chunking</button>
-        <button class="flaw-btn" onclick="showDrill('blade', this)">I'm Blading / Thinning It</button>
-        <button class="flaw-btn" onclick="showDrill('whiff', this)">I'm Whiffing / Missing Entirely</button>
+        <button class="flaw-btn" data-key="shank" onclick="triggerDirectFlaw('shank', this)">I'm Shanking It</button>
+        <button class="flaw-btn" data-key="slice" onclick="triggerDirectFlaw('slice', this)">I'm Slicing (Curving Right)</button>
+        <button class="flaw-btn" data-key="hook" onclick="triggerDirectFlaw('hook', this)">I'm Hooking (Curving Left)</button>
+        <button class="flaw-btn" data-key="chunk" onclick="triggerDirectFlaw('chunk', this)">I'm Hitting It Fat / Chunking</button>
+        <button class="flaw-btn" data-key="blade" onclick="triggerDirectFlaw('blade', this)">I'm Blading / Thinning It</button>
+        <button class="flaw-btn" data-key="whiff" onclick="triggerDirectFlaw('whiff', this)">I'm Whiffing / Missing Entirely</button>
     </div>
 
-    <!-- 2. Dynamic Drill Display Area (Video Completely Removed) -->
-    <div id="drill-display" class="drill-card">
-        <h2 id="drill-title">Drill Name</h2>
-        <p id="drill-description">Drill instructions go here.</p>
+    <hr style="border: 0; border-top: 1px solid #ccd3ce; margin: 30px 0;">
 
-        <!-- 3. Dynamic Amazon Affiliate Links Section -->
+    <!-- Option B: Diagnostic Symptom Flow -->
+    <div class="section-title">Option 2: Swing Diagnosis Quiz</div>
+    <div class="quiz-card">
+        
+        <div class="quiz-step-title">1. Ball Flight Direction</div>
+        <select id="quiz-flight" class="quiz-select">
+            <option value="slice">Curving hard right (Slice)</option>
+            <option value="hook">Curving hard left (Hook)</option>
+            <option value="shank">Shooting violently sharp right (Hosel rocket)</option>
+            <option value="straight_low">Straight but extremely low / crawling</option>
+            <option value="whiff">No ball flight (Missed completely)</option>
+        </select>
+
+        <div class="quiz-step-title">2. Contact Location on Face</div>
+        <select id="quiz-contact" class="quiz-select">
+            <option value="toe_heel">In on the heel/hosel</option>
+            <option value="high_face">High up on the face</option>
+            <option value="bottom_edge">Leading edge / bottom groove</option>
+            <option value="none">Did not make contact</option>
+            <option value="center">Center face but heavy ground first</option>
+        </select>
+
+        <div class="quiz-step-title">3. Divot Pattern</div>
+        <select id="quiz-divot" class="quiz-select">
+            <option value="left">Deep and pointing left of target</option>
+            <option value="deep_early">Deep divot well before the ball</option>
+            <option value="none">No divot / skimming over top of grass</option>
+            <option value="right">Pointing way right of target</option>
+        </select>
+
+        <div class="quiz-step-title">4. Common Miss Under Pressure</div>
+        <select id="quiz-pressure" class="quiz-select">
+            <option value="right">Weak high fade/slice right</option>
+            <option value="left">Snap hook or over-correction left</option>
+            <option value="ground">Scary fat chunk into the turf</option>
+            <option value="air">Topping it or completely missing</option>
+        </select>
+
+        <div class="quiz-step-title">5. Club Being Used</div>
+        <select id="quiz-club" class="quiz-select">
+            <option value="driver">Driver / Fairway Wood</option>
+            <option value="iron">Mid-Short Iron</option>
+            <option value="wedge">Wedge</option>
+        </select>
+
+        <button class="diagnose-btn" onclick="runQuizDiagnosis()">Diagnose My Symptoms</button>
+    </div>
+
+    <!-- Unified Master Output Card Display Area -->
+    <div id="result-display" class="result-card">
+        <div class="flaw-badge" id="res-badge-context">Analysis Complete</div>
+        <h2 id="res-flaw-title" style="margin-top:0; color:#1b4332; font-size: 22px;">Flaw Name</h2>
+        
+        <div class="result-section">
+            <h3>Setup Fix</h3>
+            <p id="res-setup-fix">Instructions to fix alignment or stance before moving.</p>
+        </div>
+
+        <div class="result-section">
+            <h3>Corrective Drill</h3>
+            <p id="res-drill">The primary mechanical movement fix drill.</p>
+        </div>
+
+        <div class="result-section">
+            <h3>Structured Practice Plan</h3>
+            <p id="res-practice-plan">Reps, sets, and focus checkpoints.</p>
+        </div>
+
+        <!-- Dynamic Amazon Affiliate Integration -->
         <div class="gear-section">
-            <h3>Recommended Range Tools For This Drill:</h3>
+            <h3 style="color:#1b4332; font-size:14px; margin-bottom: 12px;">Recommended Range Tools For This Plan:</h3>
             <div id="gear-container">
-                <!-- Amazon links injected here -->
+                <!-- Amazon tools injected dynamically -->
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Data and Logic -->
     <script>
-        // Expanded database of 6 drills with your live affiliate links
+        // Standardized complete database framework
         const drillsData = {
             shank: {
-                title: "The Alignment Stick Gate Drill",
-                description: "Place an alignment stick just outside your golf ball, parallel to your target line. Focus on swinging through the gate without striking the stick. This forces your path back inside to eliminate the hosel rocket.",
+                title: "The Shank (Hosel Strike)",
+                setupFix: "Check your distance to the ball at address. Stand approximately one fist-width away from your thigh to the grip cap. Keep weight balanced over the arches of your feet, not tipping forward onto your toes.",
+                drill: "The Alignment Stick Gate Drill: Place an alignment stick just outside your golf ball, parallel to your target line. Focus on swinging through the gate without striking the stick. This forces your path back inside to eliminate the hosel rocket.",
+                practicePlan: "Hit 15 partial wedge shots concentrating on maintaining your posture. Complete 3 sets of 10 balls tracking contact utilizing face tape.",
                 gear: [
-                    {
-                        name: "Golf Alignment Sticks (2-Pack)",
-                        link: "https://amzn.to/4v1BY9T"
-                    },
-                    {
-                        name: "Premium Golf Impact Tape (See face contact)",
-                        link: "https://amzn.to/3WhiteMdsN"
-                    }
+                    { name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" },
+                    { name: "Premium Golf Impact Tape (See face contact)", link: "https://amzn.to/3WhiteMdsN" }
                 ]
             },
             slice: {
-                title: "The Headcover Object Drill",
-                description: "Place your driver headcover roughly 4 inches outside and slightly behind your ball. If you come over-the-top (the classic slice swing), you will hit the headcover. Swing inside it to force a proper inside-out path.",
+                title: "Over-The-Top Out-to-In Slice",
+                setupFix: "Ensure your shoulder alignment is parallel to your target line. Slicers often point shoulders left at setup, forcing an out-to-in cutting path. Drop your trailing shoulder slightly downward.",
+                drill: "The Headcover Object Drill: Place your driver headcover roughly 4 inches outside and slightly behind your ball. If you come over-the-top, you will strike the headcover. Swing inside it to force a proper inside-out draw path.",
+                practicePlan: "Take 10 slow-motion practice swings missing the headcover. Then alternate hit-and-stop: 5 teed-up iron shots focus on shifting weight to the lead side first.",
                 gear: [
-                    {
-                        name: "Golf Alignment & Path Training Sticks",
-                        link: "https://amzn.to/49E0x4g"
-                    }
+                    { name: "Golf Alignment & Path Training Sticks", link: "https://amzn.to/49E0x4g" }
                 ]
             },
             hook: {
-                title: "The Open Face Grip Check",
-                description: "Hooks usually happen from a hyper-active closed clubface or coming way too far from the inside. Neutralize your grip by ensuring the 'V' shapes formed by your thumbs point toward your trailing shoulder, and practice hitting soft fades.",
+                title: "Closed Face Snap Hook",
+                setupFix: "Neutralize your grip. Check if you can see more than two knuckles on your lead hand. Turn both hands slightly toward the target until the 'V' shapes point toward your trailing ear/shoulder.",
+                drill: "The Open Face Grip Check: Practice deliberate high cut swings. Force your exit low and left through impact, maintaining stable wrist angles without letting the trailing hand roll early over the lead hand.",
+                practicePlan: "Hit 15 structured shots with a grip trainer attached. Focus on holding off the finish for 2 full seconds to feel a square face path control.",
                 gear: [
-                    {
-                        name: "Golf Grip Trainer Attachment",
-                        link: "https://amzn.to/3PACLPM"
-                    }
+                    { name: "Golf Grip Trainer Attachment", link: "https://amzn.to/3PACLPM" }
                 ]
             },
             chunk: {
-                title: "The Towel Low-Point Drill",
-                description: "Lay a flat golf towel flat on the grass roughly 3 to 4 inches behind your golf ball. Practice taking your swing. If you hit the towel, your club is bottoming out too early. Your goal is to miss the towel and strike the ball cleanly first.",
+                title: "Early Release / Fat Contact (Chunk)",
+                setupFix: "Move ball positioning into a stable spot relative to your club (center for short irons). Keep your sternum strictly over the ball rather than leaning back or sliding sway behind it during the takeaway.",
+                drill: "The Towel Low-Point Drill: Lay a flat golf towel flat on the grass roughly 3 to 4 inches behind your golf ball. Practice your swing. If you hit the towel, your club is bottoming out too early. Your goal is clean ball-first strike.",
+                practicePlan: "Perform 20 continuous swings off an tracking mat. Strive for 5 consecutive clean sweeps where the divot dynamic trace begins exactly down-target from the ball.",
                 gear: [
-                    {
-                        name: "Microfiber Golf Towel Set",
-                        link: "https://amzn.to/3R8biWm"
-                    },
-                    {
-                        name: "Golf Divot Dynamic Tracking Mat",
-                        link: "https://amzn.to/49UE9DM"
-                    }
+                    { name: "Microfiber Golf Towel Set", link: "https://amzn.to/3R8biWm" },
+                    { name: "Golf Divot Dynamic Tracking Mat", link: "https://amzn.to/49UE9DM" }
                 ]
             },
             blade: {
-                title: "The Coin Strike Drill",
-                description: "Place a flat coin exactly two inches in front of your golf ball. Your goal is to crisp the ball cleanly and make sure your club head divot strikes or moves the coin after impact.",
+                title: "Thin / Bladed Strike (Topped Ball)",
+                setupFix: "Maintain consistent posture knees flexed through your swing. Topping or blading typically stems from extending your spine early (standing up) through the hitting area.",
+                drill: "The Coin Strike Drill: Place a flat coin exactly two inches in front of your golf ball. Focus on crisping the ball cleanly and ensure your club head makes down-and-through turf contact to move the coin.",
+                practicePlan: "15 reps hitting off an impact mat. Focus heavily on keeping your chest down through impact until your hands pass waist high on follow-through.",
                 gear: [
-                    {
-                        name: "Heavy-Duty Golf Practice Impact Mat",
-                        link: "https://amzn.to/4dQQSK7"
-                    }
+                    { name: "Heavy-Duty Golf Practice Impact Mat", link: "https://amzn.to/4dQQSK7" }
                 ]
             },
             whiff: {
-                title: "The Tee Height Consistency Drill",
-                description: "Push a tee completely flush with the ground. Practice clipping the top of the tee without a ball. If you miss the tee entirely, your posture or depth is changing during the swing.",
+                title: "Loss of Spine Angle (Complete Whiff)",
+                setupFix: "Establish complete static stability at setup. Check that you aren't reaching drastically for the ball or bending too deeply from your waist. Let your arms hang naturally underneath your shoulders.",
+                drill: "The Tee Height Consistency Drill: Push a wooden tee completely flush into the ground. Practice clipping the top edge of the tee without a ball. If you miss the tee entirely, your depth tracking is changing.",
+                practicePlan: "Clip 15 consecutive tees straight out of the turf. Once consistent, add a ball teed low and match that exact floor sensation without swinging max speed.",
                 gear: [
-                    {
-                        name: "pro plastic golf tees (100pcs)",
-                        link: "https://amzn.to/4wBoOSx"
-                    }
+                    { name: "pro plastic golf tees (100pcs)", link: "https://amzn.to/4wBoOSx" }
                 ]
             }
         };
 
-        function showDrill(flawKey, clickedButton) {
-            const drill = drillsData[flawKey];
+        // Master display presentation router function
+        function displayOutputData(key, contextLabel) {
+            const data = drillsData[key];
             
-            document.getElementById("drill-title").innerText = drill.title;
-            document.getElementById("drill-description").innerText = drill.description;
+            document.getElementById("res-badge-context").innerText = contextLabel;
+            document.getElementById("res-flaw-title").innerText = data.title;
+            document.getElementById("res-setup-fix").innerText = data.setupFix;
+            document.getElementById("res-drill").innerText = data.drill;
+            document.getElementById("res-practice-plan").innerText = data.practicePlan;
             
             const gearContainer = document.getElementById("gear-container");
             gearContainer.innerHTML = "";
             
-            drill.gear.forEach(item => {
+            data.gear.forEach(item => {
                 const gearHTML = `
                     <div class="gear-card">
                         <p class="gear-title">${item.name}</p>
                         <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="amazon-btn">
-                            View Tool on Amazon ➔
+                            View on Amazon ➔
                         </a>
                     </div>
                 `;
                 gearContainer.innerHTML += gearHTML;
             });
             
-            document.getElementById("drill-display").style.display = "block";
-            
+            const targetContainer = document.getElementById("result-display");
+            targetContainer.style.display = "block";
+            targetContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Action Router 1: Direct Click Handling
+        function triggerDirectFlaw(flawKey, clickedButton) {
+            // Manage clean toggling button states
             const buttons = document.querySelectorAll('.flaw-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            clickedButton.classList.add('active');
+            if(clickedButton) clickedButton.classList.add('active');
 
-            document.getElementById("drill-display").scrollIntoView({ behavior: 'smooth' });
+            displayOutputData(flawKey, "Direct Selection Fix");
+        }
+
+        // Action Router 2: Quiz Logic Processor
+        function runQuizDiagnosis() {
+            // Remove active tags on upper quick selection menu if running the quiz instead
+            const buttons = document.querySelectorAll('.flaw-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const flight = document.getElementById("quiz-flight").value;
+            const contact = document.getElementById("quiz-contact").value;
+            const divot = document.getElementById("quiz-divot").value;
+            const pressure = document.getElementById("quiz-pressure").value;
+
+            let finalFlaw = "slice"; // Stable default engine baseline
+
+            // Algorithmic evaluation processing 
+            if (flight === "shank" || contact === "toe_heel") {
+                finalFlaw = "shank";
+            } else if (flight === "whiff" || contact === "none") {
+                finalFlaw = "whiff";
+            } else if (contact === "bottom_edge" || pressure === "air") {
+                finalFlaw = "blade";
+            } else if (divot === "deep_early" || pressure === "ground") {
+                finalFlaw = "chunk";
+            } else if (flight === "hook" || divot === "right") {
+                finalFlaw = "hook";
+            } else if (flight === "slice" || divot === "left") {
+                finalFlaw = "slice";
+            }
+
+            displayOutputData(finalFlaw, "Symptom Analysis Match");
         }
     </script>
 </body>
