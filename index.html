@@ -14,16 +14,52 @@
             padding: 15px;
         }
 
+        /* --- Integrated Modern Pro Logo & Header Styling --- */
         header {
             text-align: center;
-            padding: 20px 0 10px 0;
+            padding: 30px 0 15px 0;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin: -15px -15px 15px -15px; /* Pulls header flush to mobile screen edges */
         }
 
-        header h1 {
-            color: #1b4332; /* Golf Green */
-            margin: 0;
-            font-size: 28px;
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
         }
+
+        .logo-drill {
+            color: #2bc47a; /* Vibrant Target Green */
+            position: relative;
+            padding-right: 2px;
+        }
+
+        .logo-caddie {
+            color: #1b4332; /* Deep Premium Golf Green */
+        }
+
+        .logo-dot {
+            color: #2bc47a;
+            font-size: 36px;
+            line-height: 0;
+            margin-left: -1px;
+        }
+
+        header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+        /* -------------------------------------------------- */
 
         .section-title {
             font-size: 18px;
@@ -191,8 +227,11 @@
 </head>
 <body>
 
+    <!-- Updated Modern Pro Header & Logo Layout -->
     <header>
-        <h1>DrillCaddie</h1>
+        <div class="logo-container">
+            <span class="logo-drill">Drill</span><span class="logo-caddie">Caddie</span><span class="logo-dot">.</span>
+        </div>
         <p>Real-time fixes for your practice range session.</p>
     </header>
 
