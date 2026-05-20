@@ -134,7 +134,7 @@
 
         .action-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 8px;
         }
 
@@ -556,7 +556,6 @@
         </div>
         <div class="action-row">
             <button class="action-btn" onclick="openModal('log-stat-modal')">＋ Log Shot Data</button>
-            <button class="action-btn secondary" onclick="openModal('favorites-modal')">⭐ Saved Drills (<span id="fav-count">0</span>)</button>
         </div>
     </div>
 
@@ -1130,7 +1129,6 @@
 
         function updateDashboardDOM() {
             document.getElementById('streak-count').innerText = userDataStore.streak;
-            document.getElementById('fav-count').innerText = userDataStore.savedDrills.length;
             
             // Fairway Calculations
             const fwPct = userDataStore.fairwaysTotal > 0 ? Math.round((userDataStore.fairwaysHit / userDataStore.fairwaysTotal) * 100) : 0;
