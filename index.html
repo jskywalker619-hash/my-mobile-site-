@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DrillCaddie - Instant Swing Fix</title>
     <style>
         /* Mobile-First Optimized Styling */
@@ -12,6 +12,7 @@
             color: #333;
             margin: 0;
             padding: 15px;
+            padding-bottom: 40px;
         }
 
         /* --- Integrated Modern Pro Logo & Header Styling --- */
@@ -60,6 +61,125 @@
             letter-spacing: 0.2px;
         }
 
+        /* --- RETENTION: Progress Tracking & Dashboard CSS --- */
+        .dashboard-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-left: 5px solid #2bc47a;
+        }
+
+        .db-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .streak-badge {
+            background: #eefdf4;
+            color: #1b4332;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1b4332;
+            margin: 2px 0;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: #2bc47a;
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .action-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .action-btn {
+            background: #1b4332;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .action-btn.secondary {
+            background: #ffffff;
+            color: #1b4332;
+            border: 1px solid #1b4332;
+        }
+
+        /* --- RETENTION: Community Feed Ticker --- */
+        .community-card {
+            background: #1b4332;
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .feed-item {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: fadeTicker 4s infinite ease-in-out;
+        }
+
+        @keyframes fadeTicker {
+            0%, 100% { opacity: 0; transform: translateY(5px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+        }
+
         /* --- Club Mode Switcher Styling --- */
         .mode-container {
             display: flex;
@@ -92,7 +212,6 @@
             color: #ffffff;
             box-shadow: 0 4px 6px rgba(27, 67, 50, 0.2);
         }
-        /* -------------------------------------------------- */
 
         .section-title {
             font-size: 18px;
@@ -103,7 +222,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 1. Quick Selector Buttons CSS */
+        /* Quick Selector Buttons CSS */
         .selector-container {
             display: flex;
             flex-direction: column;
@@ -130,7 +249,7 @@
             color: #ffffff;
         }
 
-        /* 2. Diagnosis Quiz CSS */
+        /* Diagnosis Quiz CSS */
         .quiz-card {
             background: #ffffff;
             border-radius: 12px;
@@ -209,7 +328,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
         }
 
-        /* 3. Output Presentation Display Card */
+        /* Output Presentation Display Card */
         .result-card {
             background: #ffffff;
             border-radius: 12px;
@@ -218,6 +337,13 @@
             display: none; 
             margin-bottom: 40px;
             border-top: 6px solid #1b4332;
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
         .flaw-badge {
@@ -229,7 +355,22 @@
             font-weight: bold;
             font-size: 12px;
             text-transform: uppercase;
-            margin-bottom: 12px;
+        }
+
+        /* RETENTION: Favorite Drills Action Component */
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccd3ce;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .favorite-btn.active {
+            color: #ffb703;
         }
 
         .result-section {
@@ -286,6 +427,96 @@
             font-weight: bold;
             font-size: 14px;
         }
+
+        /* --- RETENTION: Mobile Logging Modal Sheets --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-end; /* Bottom sheet experience on phone displays */
+        }
+
+        .modal-sheet {
+            background: #ffffff;
+            width: 100%;
+            border-radius: 16px 16px 0 0;
+            padding: 20px;
+            box-sizing: border-box;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            color: #1b4332;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .modal-close-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .toggle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-item {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .toggle-item.selected {
+            background: #eefdf4;
+            border-color: #2bc47a;
+            color: #1b4332;
+        }
+
+        .fav-drill-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fav-drill-item span {
+            font-weight: bold;
+            font-size: 14px;
+            color: #1b4332;
+        }
+
+        .launch-drill-link {
+            color: #2bc47a;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -298,7 +529,38 @@
         <p>Real-time fixes for your practice range session.</p>
     </header>
 
-    <!-- New Mode Selector Bar Component -->
+    <!-- NEW RETENTION ELEMENT: Live Activity Ticker Feed -->
+    <div class="community-card">
+        <div class="feed-item" id="ticker-content">
+            ⛳️ Loading active range updates...
+        </div>
+    </div>
+
+    <!-- NEW RETENTION ELEMENT: Local Performance Tracker Dashboard -->
+    <div class="dashboard-card">
+        <div class="db-header">
+            <span style="font-weight: 800; font-size: 15px; color:#1b4332; text-transform: uppercase;">Range Progress</span>
+            <div class="streak-badge">⚡️ <span id="streak-count">0</span> Day Streak</div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Fairways Hit</div>
+                <div class="stat-value" id="fw-pct">0%</div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="fw-bar"></div></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">GIR %</div>
+                <div class="stat-value" id="gir-pct">0%</div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="gir-bar"></div></div>
+            </div>
+        </div>
+        <div class="action-row">
+            <button class="action-btn" onclick="openModal('log-stat-modal')">＋ Log Shot Data</button>
+            <button class="action-btn secondary" onclick="openModal('favorites-modal')">⭐ Saved Drills (<span id="fav-count">0</span>)</button>
+        </div>
+    </div>
+
+    <!-- Club Mode Selector Bar Component -->
     <div class="section-title">Select Club Mode</div>
     <div class="mode-container">
         <button class="mode-btn active" data-mode="driver" onclick="switchClubMode('driver')">Driver</button>
@@ -353,7 +615,12 @@
             <button class="handicap-tab" data-level="advanced" onclick="changeHandicapLevel('advanced')">Advanced / Scratch (&lt;10)</button>
         </div>
 
-        <div class="flaw-badge" id="res-badge-context">Analysis Complete</div>
+        <div class="card-header-flex">
+            <div class="flaw-badge" id="res-badge-context">Analysis Complete</div>
+            <!-- RETENTION ELEMENT: Bookmark Favorite Toggle Button -->
+            <button id="favorite-toggle-icon" class="favorite-btn" onclick="toggleFavoriteDrill()">★</button>
+        </div>
+        
         <h2 id="res-flaw-title" style="margin-top:0; color:#1b4332; font-size: 22px;">Flaw Name</h2>
         
         <div class="result-section">
@@ -380,12 +647,65 @@
         </div>
     </div>
 
+    <!-- RETENTION COMPONENT: Log Data Bottom Sheet Modal -->
+    <div id="log-stat-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'log-stat-modal')">
+        <div class="modal-sheet">
+            <div class="modal-title">Log Tracker Session</div>
+            
+            <div class="quiz-step-title">Fairway Target Outcome</div>
+            <div class="toggle-grid">
+                <div class="toggle-item" id="fw-hit" onclick="toggleModalSelect('fw-hit', 'fw-miss')">Hit Fairway</div>
+                <div class="toggle-item" id="fw-miss" onclick="toggleModalSelect('fw-miss', 'fw-hit')">Missed Track</div>
+            </div>
+
+            <div class="quiz-step-title">Green in Regulation (GIR)</div>
+            <div class="toggle-grid">
+                <div class="toggle-item" id="gir-hit" onclick="toggleModalSelect('gir-hit', 'gir-miss')">Hit Green</div>
+                <div class="toggle-item" id="gir-miss" onclick="toggleModalSelect('gir-miss', 'gir-hit')">Missed Green</div>
+            </div>
+
+            <button class="diagnose-btn" onclick="saveLoggedStats()">Save Entry & Update Streak</button>
+            <button class="modal-close-btn" onclick="closeModal('log-stat-modal')">Close Window</button>
+        </div>
+    </div>
+
+    <!-- RETENTION COMPONENT: Curated Bookmark Library Modal -->
+    <div id="favorites-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'favorites-modal')">
+        <div class="modal-sheet">
+            <div class="modal-title">Your Saved Drills</div>
+            <div id="favorites-container-list">
+                <!-- Active bookmark list items injected here -->
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('favorites-modal')">Return to Session</button>
+        </div>
+    </div>
+
     <script>
         // Global runtime tracking state
         let currentMode = "driver";
         let currentActiveFlawKey = "";
         let currentActiveContextLabel = "";
         let currentSelectedLevel = "beginner";
+
+        // Retention Tracking Persistence Layer States
+        let userDataStore = {
+            streak: 0,
+            lastLoggedDate: null,
+            fairwaysHit: 0,
+            fairwaysTotal: 0,
+            girHit: 0,
+            girTotal: 0,
+            savedDrills: [] // Stores objects containing {mode, flawKey, title}
+        };
+
+        // Simulated community broadcast items database
+        const globalCommunityTickerEvents = [
+            "User411 locked in an Over-The-Top Slice fix matching Driver mode.",
+            "Scratch player logged a perfect 10/10 Greens In Regulation profile.",
+            "User902 pinned 'The Iron Shank (Hosel Strike)' routine to favorites.",
+            "Player logged into DrillCaddie 4 days consecutively.",
+            "User106 converted a Banana Slice error to hit center alignment goals."
+        ];
 
         // Multi-Mode Multi-Tier Dynamic Database Framework
         const multiModeData = {
@@ -668,7 +988,7 @@
                         },
                         mid: {
                             setupFix: "Ensure your grip pressure remains steady (around a 4 out of 10) to prevent late wrist-flipping through the ball.",
-                            drill: "The Alignment Rod Extension: Hold an alignment stick against your club shaft extending past your lead hip. Chip without letting the stick hit your side.",
+                            drill: "The Alignment Rod Extension: Hold an alignment stick against your club shaft extending past your lead hip. Drop chip without letting the stick hit your side.",
                             practicePlan: "Perform 15 short shots with an extension rod to build consistent forward shaft lean."
                         },
                         advanced: {
@@ -766,14 +1086,77 @@
 
         // Initialize App UI States On Load
         window.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
             switchClubMode('driver');
+            startCommunityTicker();
         });
+
+        // Retention Storage Engine
+        function loadUserData() {
+            const saved = localStorage.getItem('drillcaddie_userdata');
+            if (saved) {
+                try {
+                    userDataStore = JSON.parse(saved);
+                    // Standard safety default array check
+                    if (!Array.isArray(userDataStore.savedDrills)) userDataStore.savedDrills = [];
+                } catch(e) {
+                    console.error("Data store rebuild required");
+                }
+            }
+            evaluateStreakValidity();
+            updateDashboardDOM();
+        }
+
+        function saveUserData() {
+            localStorage.setItem('drillcaddie_userdata', JSON.stringify(userDataStore));
+            updateDashboardDOM();
+        }
+
+        function evaluateStreakValidity() {
+            if (!userDataStore.lastLoggedDate) return;
+            const today = new Date().toDateString();
+            const lastLog = new Date(userDataStore.lastLoggedDate).toDateString();
+            
+            if (today !== lastLog) {
+                const date1 = new Date(today);
+                const date2 = new Date(lastLog);
+                const diffTime = Math.abs(date1 - date2);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays > 1) {
+                    userDataStore.streak = 0; // Streak breaks if inactivity exceeds 24 hrs
+                }
+            }
+        }
+
+        function updateDashboardDOM() {
+            document.getElementById('streak-count').innerText = userDataStore.streak;
+            document.getElementById('fav-count').innerText = userDataStore.savedDrills.length;
+            
+            // Fairway Calculations
+            const fwPct = userDataStore.fairwaysTotal > 0 ? Math.round((userDataStore.fairwaysHit / userDataStore.fairwaysTotal) * 100) : 0;
+            document.getElementById('fw-pct').innerText = `${fwPct}%`;
+            document.getElementById('fw-bar').style.width = `${fwPct}%`;
+
+            // GIR Calculations
+            const girPct = userDataStore.girTotal > 0 ? Math.round((userDataStore.girHit / userDataStore.girTotal) * 100) : 0;
+            document.getElementById('gir-pct').innerText = `${girPct}%`;
+            document.getElementById('gir-bar').style.width = `${girPct}%`;
+        }
+
+        // Live Action Ticker Loop Engine
+        function startCommunityTicker() {
+            const tickerEl = document.getElementById('ticker-content');
+            let idx = 0;
+            setInterval(() => {
+                tickerEl.innerText = `⚡️ ${globalCommunityTickerEvents[idx]}`;
+                idx = (idx + 1) % globalCommunityTickerEvents.length;
+            }, 4000);
+        }
 
         // Mode Switching Manager Controller Engine
         function switchClubMode(modeKey) {
             currentMode = modeKey;
             
-            // UI Toggle Button Classes Update
             const buttons = document.querySelectorAll('.mode-btn');
             buttons.forEach(btn => {
                 if(btn.getAttribute('data-mode') === modeKey) {
@@ -783,12 +1166,10 @@
                 }
             });
 
-            // Update Section and Dropdown Headings
             const modeConfig = multiModeData[modeKey];
             document.getElementById("quick-fix-heading").innerText = modeConfig.labels.quickHeading;
             document.getElementById("quiz-step-3-title").innerText = modeConfig.labels.step3;
 
-            // Re-render Option A: Direct Miss Buttons
             const buttonsWrapper = document.getElementById("quick-buttons-wrapper");
             buttonsWrapper.innerHTML = "";
             
@@ -798,18 +1179,15 @@
                 buttonsWrapper.innerHTML += btnHTML;
             });
 
-            // Re-render Option B: Quiz Select Dropdowns
             injectSelectOptions("quiz-flight", modeConfig.quizOptions.flight);
             injectSelectOptions("quiz-contact", modeConfig.quizOptions.contact);
             injectSelectOptions("quiz-divot", modeConfig.quizOptions.divot);
             injectSelectOptions("quiz-pressure", modeConfig.quizOptions.pressure);
 
-            // Cleanly Hide Previous Results Output on Mode Change
             document.getElementById("result-display").style.display = "none";
             currentActiveFlawKey = "";
         }
 
-        // Helper: Inject values into dropdown options elements safely
         function injectSelectOptions(elementId, optionsArray) {
             const selectEl = document.getElementById(elementId);
             selectEl.innerHTML = "";
@@ -833,6 +1211,15 @@
             document.getElementById("res-setup-fix").innerText = levelData.setupFix;
             document.getElementById("res-drill").innerText = levelData.drill;
             document.getElementById("res-practice-plan").innerText = levelData.practicePlan;
+
+            // Update Bookmark Favorite Icon State
+            const favIcon = document.getElementById('favorite-toggle-icon');
+            const isFav = userDataStore.savedDrills.some(d => d.mode === currentMode && d.flawKey === currentActiveFlawKey);
+            if (isFav) {
+                favIcon.classList.add('active');
+            } else {
+                favIcon.classList.remove('active');
+            }
             
             const gearContainer = document.getElementById("gear-container");
             gearContainer.innerHTML = "";
@@ -849,14 +1236,117 @@
                 gearContainer.innerHTML += gearHTML;
             });
             
-            const targetContainer = document.getElementById("result-display");
-            targetContainer.style.display = "block";
+            document.getElementById("result-display").style.display = "block";
         }
 
-        // Handicap Selection Modifier Link Controller
+        // RETENTION: Bookmark Drill Sync Engine 
+        function toggleFavoriteDrill() {
+            if (!currentActiveFlawKey) return;
+            const data = multiModeData[currentMode].flaws[currentActiveFlawKey];
+            
+            const existingIdx = userDataStore.savedDrills.findIndex(d => d.mode === currentMode && d.flawKey === currentActiveFlawKey);
+            
+            if (existingIdx > -1) {
+                userDataStore.savedDrills.splice(existingIdx, 1);
+            } else {
+                userDataStore.savedDrills.push({
+                    mode: currentMode,
+                    flawKey: currentActiveFlawKey,
+                    title: data.title
+                });
+            }
+            saveUserData();
+            renderAdviceOutput();
+        }
+
+        // Bottom Sheet UI Modal Handlers
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            if (modalId === 'favorites-modal') {
+                renderFavoritesList();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function closeModalOnOutsideClick(e, modalId) {
+            if (e.target.id === modalId) closeModal(modalId);
+        }
+
+        function toggleModalSelect(selectId, targetPairId) {
+            document.getElementById(selectId).classList.add('selected');
+            document.getElementById(targetPairId).classList.remove('selected');
+        }
+
+        // Core Entry Submission Business Logic
+        function saveLoggedStats() {
+            const today = new Date().toDateString();
+            
+            // Check and update sequence streak multipliers
+            if (userDataStore.lastLoggedDate !== today) {
+                userDataStore.streak += 1;
+                userDataStore.lastLoggedDate = today;
+            }
+
+            // Parse Fairway data
+            if (document.getElementById('fw-hit').classList.contains('selected')) {
+                userDataStore.fairwaysHit += 1;
+                userDataStore.fairwaysTotal += 1;
+            } else if (document.getElementById('fw-miss').classList.contains('selected')) {
+                userDataStore.fairwaysTotal += 1;
+            }
+
+            // Parse Green data
+            if (document.getElementById('gir-hit').classList.contains('selected')) {
+                userDataStore.girHit += 1;
+                userDataStore.girTotal += 1;
+            } else if (document.getElementById('gir-miss').classList.contains('selected')) {
+                userDataStore.girTotal += 1;
+            }
+
+            // Clear modal visual tracking choices
+            document.getElementById('fw-hit').classList.remove('selected');
+            document.getElementById('fw-miss').classList.remove('selected');
+            document.getElementById('gir-hit').classList.remove('selected');
+            document.getElementById('gir-miss').classList.remove('selected');
+
+            saveUserData();
+            closeModal('log-stat-modal');
+        }
+
+        function renderFavoritesList() {
+            const container = document.getElementById('favorites-container-list');
+            container.innerHTML = "";
+
+            if (userDataStore.savedDrills.length === 0) {
+                container.innerHTML = `<p style="font-size:14px; color:#64748b; text-align:center; padding: 20px 0;">No bookmarked drills yet. Tap the star icon on any complete swing diagnosis output.</p>`;
+                return;
+            }
+
+            userDataStore.savedDrills.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'fav-drill-item';
+                row.innerHTML = `
+                    <span>${item.title}</span>
+                    <a href="#" class="launch-drill-link" onclick="loadSavedDrillRoute('${item.mode}', '${item.flawKey}')">Open Fix ➔</a>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function loadSavedDrillRoute(modeKey, flawKey) {
+            closeModal('favorites-modal');
+            switchClubMode(modeKey);
+            currentActiveFlawKey = flawKey;
+            currentActiveContextLabel = "Bookmarked View";
+            renderAdviceOutput();
+            document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
+        }
+
         function changeHandicapLevel(levelKey) {
             currentSelectedLevel = levelKey;
-            
             const tabs = document.querySelectorAll('.handicap-tab');
             tabs.forEach(tab => {
                 if(tab.getAttribute('data-level') === levelKey) {
@@ -865,11 +1355,9 @@
                     tab.classList.remove('active');
                 }
             });
-            
             renderAdviceOutput();
         }
 
-        // Action Router 1: Direct Click Handling
         function triggerDirectFlaw(flawKey, clickedButton) {
             const buttons = document.querySelectorAll('.flaw-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -882,7 +1370,6 @@
             document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Action Router 2: Multi-Mode Dynamic Quiz Processor 
         function runQuizDiagnosis() {
             const buttons = document.querySelectorAll('.flaw-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -892,7 +1379,6 @@
             const divot = document.getElementById("quiz-divot").value;
             const pressure = document.getElementById("quiz-pressure").value;
 
-            // Dynamic logic routers based on active club mode selection
             let finalFlaw = "";
             const currentFlawList = Object.keys(multiModeData[currentMode].flaws);
 
@@ -934,7 +1420,6 @@
                 }
             }
 
-            // Fallback safety filter validation check
             if (!currentFlawList.includes(finalFlaw)) {
                 finalFlaw = currentFlawList[0];
             }
