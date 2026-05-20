@@ -59,6 +59,39 @@
             font-weight: 500;
             letter-spacing: 0.2px;
         }
+
+        /* --- Club Mode Switcher Styling --- */
+        .mode-container {
+            display: flex;
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: 12px;
+            margin: 20px 0;
+            gap: 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .mode-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #4b5563;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mode-btn.active {
+            background: #1b4332;
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(27, 67, 50, 0.2);
+        }
         /* -------------------------------------------------- */
 
         .section-title {
@@ -257,7 +290,7 @@
 </head>
 <body>
 
-    <!-- Updated Modern Pro Header & Logo Layout -->
+    <!-- Header & Logo Layout -->
     <header>
         <div class="logo-container">
             <span class="logo-drill">Drill</span><span class="logo-caddie">Caddie</span><span class="logo-dot">.</span>
@@ -265,62 +298,45 @@
         <p>Real-time fixes for your practice range session.</p>
     </header>
 
-    <!-- Option A: Direct Miss Buttons -->
-    <div class="section-title">Option 1: Quick Fix Selection</div>
-    <div class="selector-container">
-        <button class="flaw-btn" data-key="shank" onclick="triggerDirectFlaw('shank', this)">I'm Shanking It</button>
-        <button class="flaw-btn" data-key="slice" onclick="triggerDirectFlaw('slice', this)">I'm Slicing (Curving Right)</button>
-        <button class="flaw-btn" data-key="hook" onclick="triggerDirectFlaw('hook', this)">I'm Hooking (Curving Left)</button>
-        <button class="flaw-btn" data-key="chunk" onclick="triggerDirectFlaw('chunk', this)">I'm Hitting It Fat / Chunking</button>
-        <button class="flaw-btn" data-key="blade" onclick="triggerDirectFlaw('blade', this)">I'm Blading / Thinning It</button>
-        <button class="flaw-btn" data-key="whiff" onclick="triggerDirectFlaw('whiff', this)">I'm Whiffing / Missing Entirely</button>
+    <!-- New Mode Selector Bar Component -->
+    <div class="section-title">Select Club Mode</div>
+    <div class="mode-container">
+        <button class="mode-btn active" data-mode="driver" onclick="switchClubMode('driver')">Driver</button>
+        <button class="mode-btn" data-mode="irons" onclick="switchClubMode('irons')">Irons</button>
+        <button class="mode-btn" data-mode="wedges" onclick="switchClubMode('wedges')">Wedges</button>
+        <button class="mode-btn" data-mode="putting" onclick="switchClubMode('putting')">Putting</button>
+    </div>
+
+    <!-- Option A: Direct Miss Buttons (Dynamic Inject) -->
+    <div class="section-title" id="quick-fix-heading">Quick Fix Selection</div>
+    <div class="selector-container" id="quick-buttons-wrapper">
+        <!-- Buttons are dynamically generated based on currentMode -->
     </div>
 
     <hr style="border: 0; border-top: 1px solid #ccd3ce; margin: 30px 0;">
 
-    <!-- Option B: Diagnostic Symptom Flow -->
-    <div class="section-title">Option 2: Swing Diagnosis Quiz</div>
+    <!-- Option B: Diagnostic Symptom Flow (Dynamic Options) -->
+    <div class="section-title">Swing Diagnosis Quiz</div>
     <div class="quiz-card">
         
-        <div class="quiz-step-title">1. Ball Flight Direction</div>
+        <div class="quiz-step-title" id="quiz-step-1-title">1. Ball Flight / Result</div>
         <select id="quiz-flight" class="quiz-select">
-            <option value="slice">Curving hard right (Slice)</option>
-            <option value="hook">Curving hard left (Hook)</option>
-            <option value="shank">Shooting violently sharp right (Hosel rocket)</option>
-            <option value="straight_low">Straight but extremely low / crawling</option>
-            <option value="whiff">No ball flight (Missed completely)</option>
+            <!-- Dynamic Injection -->
         </select>
 
-        <div class="quiz-step-title">2. Contact Location on Face</div>
+        <div class="quiz-step-title" id="quiz-step-2-title">2. Contact Location on Face</div>
         <select id="quiz-contact" class="quiz-select">
-            <option value="toe_heel">In on the heel/hosel</option>
-            <option value="high_face">High up on the face</option>
-            <option value="bottom_edge">Leading edge / bottom groove</option>
-            <option value="none">Did not make contact</option>
-            <option value="center">Center face but heavy ground first</option>
+            <!-- Dynamic Injection -->
         </select>
 
-        <div class="quiz-step-title">3. Divot Pattern</div>
+        <div class="quiz-step-title" id="quiz-step-3-title">3. Dynamic Strike Profile</div>
         <select id="quiz-divot" class="quiz-select">
-            <option value="left">Deep and pointing left of target</option>
-            <option value="deep_early">Deep divot well before the ball</option>
-            <option value="none">No divot / skimming over top of grass</option>
-            <option value="right">Pointing way right of target</option>
+            <!-- Dynamic Injection -->
         </select>
 
-        <div class="quiz-step-title">4. Common Miss Under Pressure</div>
+        <div class="quiz-step-title" id="quiz-step-4-title">4. Common Miss Under Pressure</div>
         <select id="quiz-pressure" class="quiz-select">
-            <option value="right">Weak high fade/slice right</option>
-            <option value="left">Snap hook or over-correction left</option>
-            <option value="ground">Scary fat chunk into the turf</option>
-            <option value="air">Topping it or completely missing</option>
-        </select>
-
-        <div class="quiz-step-title">5. Club Being Used</div>
-        <select id="quiz-club" class="quiz-select">
-            <option value="driver">Driver / Fairway Wood</option>
-            <option value="iron">Mid-Short Iron</option>
-            <option value="wedge">Wedge</option>
+            <!-- Dynamic Injection -->
         </select>
 
         <button class="diagnose-btn" onclick="runQuizDiagnosis()">Diagnose My Symptoms</button>
@@ -334,7 +350,7 @@
         <div class="handicap-filter-container">
             <button class="handicap-tab active" data-level="beginner" onclick="changeHandicapLevel('beginner')">Beginner (HCP 25+)</button>
             <button class="handicap-tab" data-level="mid" onclick="changeHandicapLevel('mid')">Mid Handicap (10-24)</button>
-            <button class="handicap-tab" data-level="advanced" onclick="changeHandicapLevel('advanced')">Advanced / Scratch (<10)</button>
+            <button class="handicap-tab" data-level="advanced" onclick="changeHandicapLevel('advanced')">Advanced / Scratch (&lt;10)</button>
         </div>
 
         <div class="flaw-badge" id="res-badge-context">Analysis Complete</div>
@@ -366,150 +382,453 @@
 
     <script>
         // Global runtime tracking state
+        let currentMode = "driver";
         let currentActiveFlawKey = "";
         let currentActiveContextLabel = "";
         let currentSelectedLevel = "beginner";
 
-        // Tiered Handicap Advice Database Framework
-        const drillsData = {
-            shank: {
-                title: "The Shank (Hosel Strike)",
-                gear: [
-                    { name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" },
-                    { name: "Premium Golf Impact Tape (See face contact)", link: "https://amzn.to/3WhiteMdsN" }
-                ],
-                beginner: {
-                    setupFix: "You're likely standing too close to the ball. Take a step back until you can fit exactly one clear fist-width space between the top edge of your club grip and your thigh at address.",
-                    drill: "The Absolute Safety Setup: Place a secondary ball or object exactly 2 inches outside your target ball. Practice executing smooth swings hitting only your target ball while consciously steering clear of the outer zone.",
-                    practicePlan: "Hit 10 slow tee-ball wedge shots prioritizing basic face contact over pure distance. Reset your posture check completely after every strike."
+        // Multi-Mode Multi-Tier Dynamic Database Framework
+        const multiModeData = {
+            driver: {
+                labels: { quickHeading: "Option 1: Fix My Driver", step3: "3. Tee / Ground Contact" },
+                quizOptions: {
+                    flight: [
+                        { val: "slice", txt: "Banana Slice (Curves hard right)" },
+                        { val: "hook", txt: "Snap Hook (Dives hard left)" },
+                        { val: "sky", txt: "Skyball (Pops straight up into air)" },
+                        { val: "low_heel", txt: "Low heel stingers / Missed left" }
+                    ],
+                    contact: [
+                        { val: "heel", txt: "Heel strike / Near the shaft" },
+                        { val: "toe", txt: "Toe strike / Out on the edge" },
+                        { val: "high_face", txt: "Top edge / Crown line" },
+                        { val: "center", txt: "Center face but inconsistent" }
+                    ],
+                    divot: [
+                        { val: "turf_first", txt: "Hitting ground completely before the ball" },
+                        { val: "steep", txt: "Steep downward strike cutting through tee" },
+                        { val: "clean", txt: "Sweeping clear without clipping turf" }
+                    ],
+                    pressure: [
+                        { val: "slice", txt: "High weak block right" },
+                        { val: "hook", txt: "Screaming low dynamic hook left" }
+                    ]
                 },
-                mid: {
-                    setupFix: "Check your weight distribution. Shanking commonly happens when your balance tips forward onto your toes during the takeaway. Balance your weight over the center arches of your feet.",
-                    drill: "The Alignment Stick Gate Drill: Place an alignment stick just outside your golf ball, parallel to your target line. Focus on swinging through the gate without striking the stick. This forces your path back inside.",
-                    practicePlan: "Complete 3 sets of 10 balls alternating between 50% speed and 75% speed. Utilize impact tape to systematically verify center-face migration."
-                },
-                advanced: {
-                    setupFix: "Diagnose an over-extended lead wrist or overly flat shoulder turn causing an early humerus extension pushing the path out. Flex your knees slightly more to give your arms space.",
-                    drill: "The Face Holdoff Control Drill: Place an alignment stick parallel to the shaft line. Swing into impact forcing the hands to remain ahead of the clubhead without dropping early or letting hip rotation stall out.",
-                    practicePlan: "Hit 15 direct compression wedge holding structural post-impact wrist positioning. Track your heel-to-toe metrics across consecutive hits."
+                flaws: {
+                    slice: {
+                        title: "Driver Over-The-Top Slice",
+                        gear: [{ name: "Golf Alignment & Path Training Sticks", link: "https://amzn.to/49E0x4g" }],
+                        beginner: {
+                            setupFix: "Tilt your spine away from the target at setup. Ensure your lead shoulder sits higher than your trailing shoulder to promote an upward sweeping stroke.",
+                            drill: "The Closed Foot Drop: Pull your trailing foot back 4 inches. This configuration forces your hips to remain closed down-swing, promoting an inside path.",
+                            practicePlan: "Hit 10 gentle drivers focusing entirely on extending your arms outward toward right field."
+                        },
+                        mid: {
+                            setupFix: "Check your shoulder alignment. Slipping into an open shoulder alignment at address causes an immediate out-to-in cutting slice swing.",
+                            drill: "The Headcover Obstacle: Place your driver headcover 5 inches outside and forward of your ball. Swing through without making contact with the headcover.",
+                            practicePlan: "Complete 3 blocks of 5 structural balls, checking alignment visually before every single address."
+                        },
+                        advanced: {
+                            setupFix: "Check wrist extension profiles at peak backswing. Ensure your lead wrist maintains flat or slightly bowed parameters.",
+                            drill: "The Low Tracker Exit: Train a shallower path trajectory where your hands trace lower through the hitting zone to lock out standard face-to-path variations.",
+                            practicePlan: "Hit 15 structured balls alternating low push-draw shapes to force an active path reset."
+                        }
+                    },
+                    hook: {
+                        title: "Driver Closed-Face Snap Hook",
+                        gear: [{ name: "Golf Grip Trainer Attachment", link: "https://amzn.to/3PACLPM" }],
+                        beginner: {
+                            setupFix: "Check your grip strength. Rotate both hands slightly leftward so you can only see 2 knuckles on your left glove hand at address.",
+                            drill: "The Sky Finish: Complete continuous practices finishing with your knuckles pointing directly to the sky to prevent over-rolling your wrists.",
+                            practicePlan: "Take 10 rhythmic swings holding a relaxed, soft hand pressure to prevent aggressive wrist snaps."
+                        },
+                        mid: {
+                            setupFix: "Move the ball up in your stance—it should align flush with your lead heel. Hitting too late in the arc encourages a shut face.",
+                            drill: "The Open Chest Extension: Focus on rotating your torso through impact aggressively rather than letting your body slide forward or stall.",
+                            practicePlan: "Execute 12 controlled driver shots trying to hold a high block finish shape for 2 seconds."
+                        },
+                        advanced: {
+                            setupFix: "Eliminate early hip slide mechanics that clear structural workspace and trigger automatic reactive hand flips.",
+                            drill: "The Rotation Post Check: Work against an alignment rod fixed behind your lead hip to ensure clean rotational torque.",
+                            practicePlan: "Hit 15 balls chasing a high, holding fade trajectory to actively shift dynamic delivery parameters."
+                        }
+                    },
+                    sky: {
+                        title: "The Skyball (Steep Driver Descent)",
+                        gear: [{ name: "Premium Golf Impact Tape", link: "https://amzn.to/3WhiteMdsN" }],
+                        beginner: {
+                            setupFix: "Do not lean your chest over the ball. Keep your sternum aligned strictly behind the golf ball at address.",
+                            drill: "The Empty Tee Sweep: Place an empty tee 2 inches in front of your ball. Practice sweeping up to hit the ball without flattening or tipping the front tee.",
+                            practicePlan: "Hit 10 teed balls utilizing half-power swings to establish horizontal muscle tracking memory."
+                        },
+                        mid: {
+                            setupFix: "Lower your total tee height until only half of the golf ball sits proudly over the driver's top crown edge line.",
+                            drill: "The Behind-The-Ball Focus: Lock your vision on the bottom back quadrant of the ball, forcing an upward strike path angle.",
+                            practicePlan: "Practice 15 controlled balls checking your crown with impact tape to verify low-face tracking correction."
+                        },
+                        advanced: {
+                            setupFix: "Diagnose excessive downward attack angles (greater than -2 degrees) creating high vertical impacts.",
+                            drill: "The Positive Attack Arc: Track a wide, shallow entryway into impact, ensuring your hips move forward as your spine maintains an upward angle.",
+                            practicePlan: "Perform 15 baseline drives striving to minimize spin rates by altering dynamic loft angle variables."
+                        }
+                    },
+                    low_heel: {
+                        title: "Driver Heel Strike / Hosel Danger",
+                        gear: [{ name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" }],
+                        beginner: {
+                            setupFix: "You are likely crowded. Stand back until your hands hang naturally with room to clear your thighs at address.",
+                            drill: "The Outer Target Trick: Focus your gaze on the far outer corner of the ball face to manually bring the sweet spot back to center.",
+                            practicePlan: "Execute 10 effortless practice swings consciously reaching for the outer sweet spot profile."
+                        },
+                        mid: {
+                            setupFix: "Balance your weight squarely across your shoelaces instead of shifting out onto your toes during dynamic transitions.",
+                            drill: "The Stick Gate: Position an alignment rod just past the outside edge of your driver clubhead to guard against outward extension paths.",
+                            practicePlan: "Execute 15 ball trials monitoring face contact locations closely via instant tape maps."
+                        },
+                        advanced: {
+                            setupFix: "Correct premature shoulder lunging extensions that alter arm tracking lengths during downswing phases.",
+                            drill: "The Trailing Elbow Tuck: Focus on pulling your trailing elbow deep into your pocket line to preserve structural spacing dimensions.",
+                            practicePlan: "Hit 15 dynamic balls tracking center impact stability through structural pressure variations."
+                        }
+                    }
                 }
             },
-            slice: {
-                title: "Over-The-Top Out-to-In Slice",
-                gear: [
-                    { name: "Golf Alignment & Path Training Sticks", link: "https://amzn.to/49E0x4g" }
-                ],
-                beginner: {
-                    setupFix: "Ensure your feet, hips, and shoulders are pointing parallel to your ultimate target. Beginners usually look right but line their shoulders up way left, causing an instant chopping action.",
-                    drill: "The Closed Foot Drop Trick: Drop your trailing foot back about 3 inches behind your lead line. This forces your upper torso to stay closed longer, helping you sweep the ball from the inside.",
-                    practicePlan: "Hit 15 structural shots using a teed iron, taking half-swings focused solely on sweeping out to the right of your target line."
+            irons: {
+                labels: { quickHeading: "Option 1: Fix My Irons", step3: "3. Divot / Turf Pattern" },
+                quizOptions: {
+                    flight: [
+                        { val: "shank", txt: "Hosel Rocket / Violent Right (Shank)" },
+                        { val: "slice", txt: "Weak Cutting Slice Right" },
+                        { val: "chunk", txt: "Fat / Deep Ground Contact First" },
+                        { val: "blade", txt: "Thin Skulled / Low Bladed Shot" }
+                    ],
+                    contact: [
+                        { val: "heel", txt: "In on the absolute hosel connector" },
+                        { val: "toe", txt: "Deep toe mark alignment" },
+                        { val: "bottom_edge", txt: "Leading blade / bottom sharp edge" },
+                        { val: "center", txt: "Clean face but bad entry angle" }
+                    ],
+                    divot: [
+                        { val: "chunk", txt: "Deep trench located before ball line" },
+                        { val: "slice", txt: "Deep tracking line angled left of target" },
+                        { val: "blade", txt: "No divot whatsoever / clean pick" }
+                    ],
+                    pressure: [
+                        { val: "chunk", txt: "Heavy chunk direct into grass" },
+                        { val: "shank", txt: "Terrifying shank when tense" }
+                    ]
                 },
-                mid: {
-                    setupFix: "Keep your trailing shoulder slightly lower than your lead shoulder at setup. Dropping the trailing shoulder tilts your spine correctly away from target, stopping a steep over-the-top move.",
-                    drill: "The Headcover Object Drill: Place your driver headcover roughly 4 inches outside and slightly behind your ball. If you come over-the-top, you will strike the headcover. Swing inside it to force a proper inside-out draw path.",
-                    practicePlan: "Take 10 slow-motion practice swings missing the headcover. Then alternate hit-and-stop: 5 teed-up iron shots focusing on shifting weight to the lead side first."
-                },
-                advanced: {
-                    setupFix: "Look closely at lead wrist extension angles at the peak of the backswing. Neutralize or slightly bow the wrist to lock down micro face angles before transition.",
-                    drill: "The Extreme Inside-Out Extension Drill: Set an alignment marker 45-degrees outwards of target. Track a shallow hand path feeling your lead shoulder pull clear while matching a neutral club path value.",
-                    practicePlan: "Execute 20 dynamic ball reps alternating a deliberate high block-fade with a tight compression draw to reset active path control."
+                flaws: {
+                    shank: {
+                        title: "The Iron Shank (Hosel Strike)",
+                        gear: [{ name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" }],
+                        beginner: {
+                            setupFix: "Step back slightly. Ensure you can fit one full fist-width space between your thigh and the butt end of the club grip.",
+                            drill: "The Two-Ball Gate: Place a secondary ball 2 inches outside your main target ball. Practice hitting the inside ball without touching the outside ball.",
+                            practicePlan: "Hit 10 slow, smooth half-wedges checking setup distance after every ball."
+                        },
+                        mid: {
+                            setupFix: "Check weight tracking. Make sure balance doesn't fall onto your toes at downswing, causing the heel to push out.",
+                            drill: "The Alignment Stick Barrier: Place an alignment stick parallel to your target line, just outside your ball path, to force an inside delivery.",
+                            practicePlan: "Hit 15 dynamic irons focusing on feeling your weight anchor firmly into your lead heel through impact."
+                        },
+                        advanced: {
+                            setupFix: "Identify stall parameters inside your hip rotation sequence that push your hands outward through impact.",
+                            drill: "The Rotation Release Extension: Force your body's rotation to clear an inside path, ensuring your hands clear the hitting zone cleanly.",
+                            practicePlan: "Complete 15 precise compression holds to dial your sweet-spot strikes back into center focus."
+                        }
+                    },
+                    slice: {
+                        title: "Iron Cutting Slice",
+                        gear: [{ name: "Golf Alignment & Path Training Sticks", link: "https://amzn.to/49E0x4g" }],
+                        beginner: {
+                            setupFix: "Align your feet and shoulders parallel to your target line. Beginner slices are often caused by open shoulders at address.",
+                            drill: "The Closed Foot Drop: Pull your trailing foot back 3 inches behind your lead line to build a deeper, inside-out swing path.",
+                            practicePlan: "Hit 15 smooth, controlled iron shots focusing on sweeping out to the right of your target line."
+                        },
+                        mid: {
+                            setupFix: "Set your trailing shoulder slightly lower than your lead shoulder at setup to encourage an inside-out path angle.",
+                            drill: "The Headcover Placement: Place a soft headcover 4 inches outside and behind your ball. Swing underneath and inside it to fix an over-the-top move.",
+                            practicePlan: "Take 10 practice swings avoiding the cover, then try hitting 10 balls with that same feel."
+                        },
+                        advanced: {
+                            setupFix: "Check for an over-extended lead wrist profile at the top of your backswing. Bow or flatten it to square the face early.",
+                            drill: "The Extreme Path Extension: Track an inside-to-out delivery line toward an objective marker placed right of the target.",
+                            practicePlan: "Hit 15 continuous iron shots, focusing on generating a clean, running draw shape."
+                        }
+                    },
+                    chunk: {
+                        title: "The Iron Chunk (Fat Shot)",
+                        gear: [{ name: "Golf Divot Dynamic Tracking Mat", link: "https://amzn.to/49UE9DM" }],
+                        beginner: {
+                            setupFix: "Position the ball in the dead center of your feet for mid-irons. Setting it too far forward causes the club to hit the ground early.",
+                            drill: "The Front-Leg Anchor: Place 60% of your body weight onto your front foot at setup and maintain that forward lean through impact.",
+                            practicePlan: "Perform 15 half-power iron swings focusing on clicking the grass *after* the ball position."
+                        },
+                        mid: {
+                            setupFix: "Keep your chest centered straight over the ball. Avoid swaying your upper body backward during your backswing.",
+                            drill: "The Towel Barrier Drill: Lay a flat towel 4 inches behind your ball. Practice your iron swing; hitting the towel means your swing is bottoming out early.",
+                            practicePlan: "Perform 20 swings off a divot mat tracker, working to keep the trace starting cleanly down-target."
+                        },
+                        advanced: {
+                            setupFix: "Look out for casting or releasing your wrist angles early in an attempt to add dynamic loft to the shot.",
+                            drill: "The Forward Shaft Lean Push: Maintain lead wrist flexion through impact to move your low-point trajectory 2 inches out ahead of the ball.",
+                            practicePlan: "Hit 15 low punch shots, using a divot tracker mat to verify consistent forward shaft lean."
+                        }
+                    },
+                    blade: {
+                        title: "The Iron Thin / Blade Shot",
+                        gear: [{ name: "Heavy-Duty Golf Practice Impact Mat", link: "https://amzn.to/4dQQSK7" }],
+                        beginner: {
+                            setupFix: "Avoid the instinct to lift your head up early. Keep your knees flexed and maintain your posture through your turn.",
+                            drill: "The Grass Brush: Take 10 continuous practice swings focusing on brushing the grass each time to stop yourself from pulling up.",
+                            practicePlan: "Hit 12 iron balls off a low tee, keeping your vision locked on the ball until well after impact."
+                        },
+                        mid: {
+                            setupFix: "Maintain your spine angle through impact. Thin or bladed shots usually happen when you stand up too early in the hitting zone.",
+                            drill: "The Forward Coin Strike: Place a flat coin 2 inches ahead of your ball. Focus on hitting down through the ball to move the coin.",
+                            practicePlan: "Take 15 iron shots off an impact mat, keeping your chest down over the ball through your entire turn."
+                        },
+                        advanced: {
+                            setupFix: "Check for early extension (pelvic thrusting toward the ball) which alters your arm path and hand clearance.",
+                            drill: "The Glute Wall Drill: Focus on maintaining consistent glute depth through impact to preserve your posture and control your radius.",
+                            practicePlan: "Execute 20 compression irons onto an impact mat, verifying consistent, solid center face strikes."
+                        }
+                    }
                 }
             },
-            hook: {
-                title: "Closed Face Snap Hook",
-                gear: [
-                    { name: "Golf Grip Trainer Attachment", link: "https://amzn.to/3PACLPM" }
-                ],
-                beginner: {
-                    setupFix: "Your hand position is likely rotated too far right (a 'strong' grip). Look down at setup: if you can see 3 or 4 knuckles on your left hand, rotate both hands left until you see only 2 knuckles.",
-                    drill: "The Open-To-Target Finish: Take smooth practice swings where you intentionally point the face of your club directly up to the sky at your waist-high finish line, avoiding an early wrist roll.",
-                    practicePlan: "Hit 10 easy-tempo shots with a loose grip. Intentionally try to push your ball slightly right of target to offset the rolling hook."
+            wedges: {
+                labels: { quickHeading: "Option 1: Fix My Wedges", step3: "3. Bounce vs Leading Edge Contact" },
+                quizOptions: {
+                    flight: [
+                        { val: "chunk", txt: "Fat / Dug straight into turf (Chili-dip)" },
+                        { val: "blade", txt: "Skulled across the green (Blade)" },
+                        { val: "double_hit", txt: "Double chip / Inconsistent scoop" }
+                    ],
+                    contact: [
+                        { val: "bottom_edge", txt: "Sharp leading edge struck mid-ball" },
+                        { val: "high_face", txt: "Struck extremely high on the face" },
+                        { val: "center", txt: "Centered but dug a deep hole" }
+                    ],
+                    divot: [
+                        { val: "chunk", txt: "Deep, gouging divot before the ball" },
+                        { val: "blade", txt: "Zero turf interaction / Skimmed over grass" }
+                    ],
+                    pressure: [
+                        { val: "chunk", txt: "Decelerated dump straight into the grass" },
+                        { val: "blade", txt: "Bladed bullet over the back of the green" }
+                    ]
                 },
-                mid: {
-                    setupFix: "Neutralize your hand profile until the 'V' shapes formed by your thumbs point straight up toward your trailing ear or shoulder, not out past your armpit.",
-                    drill: "The Open Face Grip Check: Practice deliberate high cut swings. Force your exit low and left through impact, maintaining stable wrist angles without letting the trailing hand roll early over the lead hand.",
-                    practicePlan: "Hit 15 structured shots with a grip trainer attached. Focus on holding off the finish for 2 full seconds to feel a square face path control."
-                },
-                advanced: {
-                    setupFix: "Address any excessive lower body hip sway or dynamic hip slides that stall mid-turn and force your hands to hyper-flip through impact.",
-                    drill: "The Dynamic Body Rotation Exit: Place an obstacle directly behind your lead hip. Ensure your hips turn violently clear through impact rather than stopping or sliding forward.",
-                    practicePlan: "Practice 15 high-speed holding reps checking that target face rotation stays minimal relative to total core displacement."
+                flaws: {
+                    chunk: {
+                        title: "Wedge Chili-Dip (Fat Dig)",
+                        gear: [{ name: "Golf Divot Dynamic Tracking Mat", link: "https://amzn.to/49UE9DM" }],
+                        beginner: {
+                            setupFix: "Lean your weight heavily onto your lead foot (65%) and keep your hands pressed slightly forward of the ball at address.",
+                            drill: "The Constant Acceleration Sweep: Focus on a shorter backswing and an aggressive, accelerating follow-through to avoid stalling out.",
+                            practicePlan: "Take 15 short wedge pitches focusing on an accelerating finish where your chest points fully at the target."
+                        },
+                        mid: {
+                            setupFix: "Set the ball in the center-back of your stance to catch the ball on a crisp, downward strike angle.",
+                            drill: "The Bounce Glide: Focus on sliding the flat bottom (bounce) of your wedge along the turf rather than digging the sharp leading edge down.",
+                            practicePlan: "Hit 20 short pitches off a tracking mat, ensuring your divot trace starts flush under or ahead of the ball."
+                        },
+                        advanced: {
+                            setupFix: "Check for variable hand speeds or trying to manipulate the clubface with your wrists through impact.",
+                            drill: "The Connected Body Turn: Lock your wrist angles and use your core rotation to control the wedge path instead of flipping your hands.",
+                            practicePlan: "Hit 15 crisp, low-spinning check wedges using a stable, connected core movement."
+                        }
+                    },
+                    blade: {
+                        title: "Wedge Skull / Bladed Missile",
+                        gear: [{ name: "Heavy-Duty Golf Practice Impact Mat", link: "https://amzn.to/4dQQSK7" }],
+                        beginner: {
+                            setupFix: "Do not try to help the ball up into the air by scooping it. Trust the club's built-in loft to lift it for you.",
+                            drill: "The Eyes-On-The-Turf Check: Keep your head steady and focus on checking that your club head clips the grass directly beneath the ball.",
+                            practicePlan: "Hit 12 short wedge targets, focusing on keeping your chest down until the ball lands."
+                        },
+                        mid: {
+                            setupFix: "Ensure your spine angle doesn't pull upward or extend early through the hitting zone, causing a thin strike.",
+                            drill: "The Lead Wrist Press: Keep your lead wrist firm and ahead of the ball through impact to ensure a downward angle of attack.",
+                            practicePlan: "Take 15 short pitches off an impact mat, focusing on a crisp downward hit that clips the grass.",
+                        },
+                        advanced: {
+                            setupFix: "Address any lower-body shifting or hip swaying that moves your swing's low point behind the ball line.",
+                            drill: "The Locked-Axis Pivot: Center your weight on your lead leg and pivot your torso cleanly around that single leg axis.",
+                            practicePlan: "Execute 20 targeted precision pitch distances, working on consistent center-face compression."
+                        }
+                    },
+                    double_hit: {
+                        title: "Wedge Scoop / Deceleration",
+                        gear: [{ name: "Golf Grip Trainer Attachment", link: "https://amzn.to/3PACLPM" }],
+                        beginner: {
+                            setupFix: "Position your hands ahead of the ball at address so the shaft slants forward toward your target.",
+                            drill: "The Firm Lead Wrist Hold: Take short practice strokes focusing on keeping your lead wrist straight and firm through impact, avoiding any breakdown.",
+                            practicePlan: "Hit 15 chip shots using a smooth, even, pendulum-like tempo across your entire stroke."
+                        },
+                        mid: {
+                            setupFix: "Ensure your grip pressure remains steady (around a 4 out of 10) to prevent late wrist-flipping through the ball.",
+                            drill: "The Alignment Rod Extension: Hold an alignment stick against your club shaft extending past your lead hip. Chip without letting the stick hit your side.",
+                            practicePlan: "Perform 15 short shots with an extension rod to build consistent forward shaft lean."
+                        },
+                        advanced: {
+                            setupFix: "Eliminate any stalling in your torso rotation through the hitting zone that triggers a manual hand release.",
+                            drill: "The Continuous Core Drive: Focus on driving your lead shoulder around through the shot to lead the club head smoothly.",
+                            practicePlan: "Execute 15 landing-spot targets, focusing on using your body rotation to control your distance."
+                        }
+                    }
                 }
             },
-            chunk: {
-                title: "Early Release / Fat Contact (Chunk)",
-                gear: [
-                    { name: "Microfiber Golf Towel Set", link: "https://amzn.to/3R8biWm" },
-                    { name: "Golf Divot Dynamic Tracking Mat", link: "https://amzn.to/49UE9DM" }
-                ],
-                beginner: {
-                    setupFix: "Do not hide the ball too far forward in your stance. Put the ball right in the dead center of your feet for all mid-irons so you catch the ball before hitting the ground.",
-                    drill: "The Lead-Side Leaner: Put 60% of your body weight onto your front foot at setup and try to keep it there through the whole mini-swing. This forces your club down onto the ball.",
-                    practicePlan: "Perform 15 half-swings with a short iron focusing on clipping the grass purely *after* the ball position."
+            putting: {
+                labels: { quickHeading: "Option 1: Fix My Putting", step3: "3. Stroke Arc Path Profile" },
+                quizOptions: {
+                    flight: [
+                        { val: "push", txt: "Push (Misses consistently right of line)" },
+                        { val: "pull", txt: "Pull (Misses consistently left of line)" },
+                        { val: "distance", txt: "Bad Distance / Skips and hops off face" }
+                    ],
+                    contact: [
+                        { val: "toe", txt: "Struck out off the toe edge" },
+                        { val: "heel", txt: "Struck in near the heel block" },
+                        { val: "center", txt: "Center face but inconsistent roll" }
+                    ],
+                    divot: [
+                        { val: "inside_out", txt: "Stroking path moving inside to out" },
+                        { val: "outside_in", txt: "Stroking path moving outside to in" },
+                        { val: "neutral", txt: "Straight back and through path" }
+                    ],
+                    pressure: [
+                        { val: "push", txt: "Tense wrist push to the right" },
+                        { val: "pull", txt: "Jerked pull across line left" }
+                    ]
                 },
-                mid: {
-                    setupFix: "Keep your sternum stable and centered straight over the ball. Avoid leaning or swaying your upper torso backward during the backswing.",
-                    drill: "The Towel Low-Point Drill: Lay a flat golf towel flat on the grass roughly 3 to 4 inches behind your golf ball. Practice your swing. If you hit the towel, your club is bottoming out too early.",
-                    practicePlan: "Perform 20 continuous swings off a tracking mat. Strive for 5 consecutive clean sweeps where the divot dynamic trace begins exactly down-target from the ball."
-                },
-                advanced: {
-                    setupFix: "Assess lag profiles. Early release (casting) is often caused by trying to add dynamic loft or stalling the chest rotation out too early.",
-                    drill: "The Forward Shaft Lean Compression: Maintain structural lead wrist flexion through impact. Work on moving your low-point trajectory 2 inches out ahead of the ball.",
-                    practicePlan: "Hit 15 crisp, low-trajectory compression punch shots, checking to verify a deep forward shaft lean using a divot mat tracker."
-                }
-            },
-            blade: {
-                title: "Thin / Bladed Strike (Topped Ball)",
-                gear: [
-                    { name: "Heavy-Duty Golf Practice Impact Mat", link: "https://amzn.to/4dQQSK7" }
-                ],
-                beginner: {
-                    setupFix: "Avoid the urge to stand up straight. Keep your knees comfortably flexed and maintain a forward bend from your waist throughout the entire motion.",
-                    drill: "The Constant Ground Scrape: Take 10 easy practice swings trying to actively brush the grass with your club head every single time. If you hear no sound, you are pulling up.",
-                    practicePlan: "Hit 12 balls off low tees focusing exclusively on keeping your eyes fixed on the back edge of the ball until well after it's gone."
-                },
-                mid: {
-                    setupFix: "Keep your spine angle stable. Topping or blading typically stems from extending your spine early (standing up too soon) through the hitting area.",
-                    drill: "The Coin Strike Drill: Place a flat coin exactly two inches in front of your golf ball. Focus on crisping the ball cleanly and ensure your club head makes down-and-through turf contact to move the coin.",
-                    practicePlan: "15 reps hitting off an impact mat. Focus heavily on keeping your chest down through impact until your hands pass waist high on follow-through."
-                },
-                advanced: {
-                    setupFix: "Identify any vertical pelvic thrusting (early extension) toward the ball line that alters your hand clearance path.",
-                    drill: "The Heel-Back Glute Contact Drill: Practice maintaining stable glute connection against an alignment setup line to protect depth perception and target radius through impact.",
-                    practicePlan: "Execute 20 heavy compression iron shots on an impact mat checking for solid chest coverage over the hitting zone."
-                }
-            },
-            whiff: {
-                title: "Loss of Spine Angle (Complete Whiff)",
-                gear: [
-                    { name: "pro plastic golf tees (100pcs)", link: "https://amzn.to/4wBoOSx" }
-                ],
-                beginner: {
-                    setupFix: "Let your arms hang loosely down underneath your shoulders. Do not reach far out or stretch out for the ball, which ruins your balance.",
-                    drill: "The Feet-Together Balancer: Put your feet completely together so your shoes touch and make smooth half-swings. This builds spatial balance instantly and forces consistent contact.",
-                    practicePlan: "Take 10 feet-together practice swings, then try 10 normal shots keeping your swing at 50% total effort."
-                },
-                mid: {
-                    setupFix: "Establish complete static stability at setup. Check that you aren't reaching drastically for the ball or bending too deeply from your waist.",
-                    drill: "The Tee Height Consistency Drill: Push a wooden tee completely flush into the ground. Practice clipping the top edge of the tee without a ball. If you miss it, your height is shifting.",
-                    practicePlan: "Clip 15 consecutive tees straight out of the turf. Once consistent, add a ball teed low and match that exact floor sensation without swinging max speed."
-                },
-                advanced: {
-                    setupFix: "Check for excessive vertical head movement or erratic eye-level tracking shifts during your transition phase.",
-                    drill: "The Closed-Eye Balance Check: Complete 10 easy practice swings with your eyes closed to tune into absolute foot pressure changes and kinetic spatial positioning.",
-                    practicePlan: "Execute 15 ball strikes tracking center face consistency while keeping swing speed around 75% for balance."
+                flaws: {
+                    push: {
+                        title: "The Pushed Putt (Open Face Miss)",
+                        gear: [{ name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" }],
+                        beginner: {
+                            setupFix: "Position your eyes straight over the ball line. Leaning too far inside can cause you to push the face open.",
+                            drill: "The Parallel Stick Track: Lay two alignment sticks down to form a narrow putting track. Practice rolling putts cleanly between them.",
+                            practicePlan: "Roll 15 short 4-foot putts focusing on keeping your putter blade square to the track layout."
+                        },
+                        mid: {
+                            setupFix: "Make sure your hands aren't pressed too far forward at address, which can open the putter face.",
+                            drill: "The Gate Release Drill: Setup a narrow tee gate just past your ball. Practice rolling putts through the center without hitting the tees.",
+                            practicePlan: "Sink 20 putts focusing on keeping your trailing hand square through your release.",
+                        },
+                        advanced: {
+                            setupFix: "Check your shoulder alignment to ensure it sits perfectly parallel to your target line, not open.",
+                            drill: "The Locked Shoulder Pivot: Put a stick across your chest and practice rock-and-roll movements using only your larger shoulder muscles.",
+                            practicePlan: "Roll 15 long-distance putts checking face angle consistency across your entire stroke arc."
+                        }
+                    },
+                    pull: {
+                        title: "The Pulled Putt (Closed Face Miss)",
+                        gear: [{ name: "Golf Alignment Sticks (2-Pack)", link: "https://amzn.to/4v1BY9T" }],
+                        beginner: {
+                            setupFix: "Avoid looking up early to watch the ball. Keep your eyes fixed on the grass spot beneath the ball until the stroke finishes.",
+                            drill: "The Steady Head Hold: Practice your putting stroke with your head resting gently against a wall to eliminate body movement.",
+                            practicePlan: "Roll 15 straight putts focusing on keeping your lower body completely still.",
+                        },
+                        mid: {
+                            setupFix: "Position the ball slightly forward of center in your stance to allow the putter face to square up naturally.",
+                            drill: "The Left-Hand Only Guide: Practice rolling short putts using only your lead hand to build a smooth, pulling stroke line.",
+                            practicePlan: "Take 15 putts focusing on an extension line directly down your target path.",
+                        },
+                        advanced: {
+                            setupFix: "Address any loop inside your backstroke path that causes an outside-in cut through the ball.",
+                            drill: "The Rail Tracking Stroke: Position a straight edge guide flush against the heel of your putter to eliminate any looping path shapes.",
+                            practicePlan: "Roll 20 putts focusing on a smooth, square back-and-through stroke path dynamic."
+                        }
+                    },
+                    distance: {
+                        title: "Putting Distance / Inconsistent Strike",
+                        gear: [{ name: "Premium Golf Impact Tape", link: "https://amzn.to/3WhiteMdsN" }],
+                        beginner: {
+                            setupFix: "Keep your stance comfortable and balanced, weighting your feet evenly to build a steady foundation.",
+                            drill: "The Symmetrical Pendulum: Focus on taking a backstroke and through-stroke of equal lengths to keep your speed smooth and consistent.",
+                            practicePlan: "Roll 12 putts to a fringe line from various distances, focusing entirely on speed rather than targeting a cup."
+                        },
+                        mid: {
+                            setupFix: "Ensure your grip pressure stays soft and relaxed (around a 3 out of 10) to preserve your feel for distance.",
+                            drill: "The Rubber Band Strike: Wrap small rubber bands around the toe and heel of your putter face, leaving only a small sweet-spot open to build center contact.",
+                            practicePlan: "Roll 20 putts with face markers attached to practice clean center-face hits."
+                        },
+                        advanced: {
+                            setupFix: "Verify that your putter's dynamic loft matches up cleanly at impact to avoid any skipping or hopping.",
+                            drill: "The Smooth Roll Check: Focus on hitting through the ball with a slight upward stroke to create immediate forward roll.",
+                            practicePlan: "Practice 15 long lag putts from 40 feet out, working to land your balls within a small 3-foot safety circle."
+                        }
+                    }
                 }
             }
         };
 
-        // UI View Updater Router Function
+        // Initialize App UI States On Load
+        window.addEventListener('DOMContentLoaded', () => {
+            switchClubMode('driver');
+        });
+
+        // Mode Switching Manager Controller Engine
+        function switchClubMode(modeKey) {
+            currentMode = modeKey;
+            
+            // UI Toggle Button Classes Update
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach(btn => {
+                if(btn.getAttribute('data-mode') === modeKey) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update Section and Dropdown Headings
+            const modeConfig = multiModeData[modeKey];
+            document.getElementById("quick-fix-heading").innerText = modeConfig.labels.quickHeading;
+            document.getElementById("quiz-step-3-title").innerText = modeConfig.labels.step3;
+
+            // Re-render Option A: Direct Miss Buttons
+            const buttonsWrapper = document.getElementById("quick-buttons-wrapper");
+            buttonsWrapper.innerHTML = "";
+            
+            Object.keys(modeConfig.flaws).forEach(flawKey => {
+                const flawTitle = modeConfig.flaws[flawKey].title;
+                const btnHTML = `<button class="flaw-btn" data-key="${flawKey}" onclick="triggerDirectFlaw('${flawKey}', this)">I'm having trouble with: ${flawTitle}</button>`;
+                buttonsWrapper.innerHTML += btnHTML;
+            });
+
+            // Re-render Option B: Quiz Select Dropdowns
+            injectSelectOptions("quiz-flight", modeConfig.quizOptions.flight);
+            injectSelectOptions("quiz-contact", modeConfig.quizOptions.contact);
+            injectSelectOptions("quiz-divot", modeConfig.quizOptions.divot);
+            injectSelectOptions("quiz-pressure", modeConfig.quizOptions.pressure);
+
+            // Cleanly Hide Previous Results Output on Mode Change
+            document.getElementById("result-display").style.display = "none";
+            currentActiveFlawKey = "";
+        }
+
+        // Helper: Inject values into dropdown options elements safely
+        function injectSelectOptions(elementId, optionsArray) {
+            const selectEl = document.getElementById(elementId);
+            selectEl.innerHTML = "";
+            optionsArray.forEach(opt => {
+                const optEl = document.createElement("option");
+                optEl.value = opt.val;
+                optEl.innerText = opt.txt;
+                selectEl.appendChild(optEl);
+            });
+        }
+
+        // UI View Updater Router Function 
         function renderAdviceOutput() {
             if (!currentActiveFlawKey) return;
             
-            const data = drillsData[currentActiveFlawKey];
+            const data = multiModeData[currentMode].flaws[currentActiveFlawKey];
             const levelData = data[currentSelectedLevel];
             
-            document.getElementById("res-badge-context").innerText = `${currentActiveContextLabel} | ${currentSelectedLevel.toUpperCase()}`;
+            document.getElementById("res-badge-context").innerText = `${currentMode.toUpperCase()} | ${currentActiveContextLabel} | ${currentSelectedLevel.toUpperCase()}`;
             document.getElementById("res-flaw-title").innerText = data.title;
             document.getElementById("res-setup-fix").innerText = levelData.setupFix;
             document.getElementById("res-drill").innerText = levelData.drill;
@@ -557,13 +876,13 @@
             if(clickedButton) clickedButton.classList.add('active');
 
             currentActiveFlawKey = flawKey;
-            currentActiveContextLabel = "Direct Selection Fix";
+            currentActiveContextLabel = "Direct Fix";
             
             renderAdviceOutput();
             document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Action Router 2: Quiz Logic Processor
+        // Action Router 2: Multi-Mode Dynamic Quiz Processor 
         function runQuizDiagnosis() {
             const buttons = document.querySelectorAll('.flaw-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -573,25 +892,55 @@
             const divot = document.getElementById("quiz-divot").value;
             const pressure = document.getElementById("quiz-pressure").value;
 
-            let finalFlaw = "slice"; // Engine baseline
+            // Dynamic logic routers based on active club mode selection
+            let finalFlaw = "";
+            const currentFlawList = Object.keys(multiModeData[currentMode].flaws);
 
-            // Algorithmic evaluation processing 
-            if (flight === "shank" || contact === "toe_heel") {
-                finalFlaw = "shank";
-            } else if (flight === "whiff" || contact === "none") {
-                finalFlaw = "whiff";
-            } else if (contact === "bottom_edge" || pressure === "air") {
-                finalFlaw = "blade";
-            } else if (divot === "deep_early" || pressure === "ground") {
-                finalFlaw = "chunk";
-            } else if (flight === "hook" || divot === "right") {
-                finalFlaw = "hook";
-            } else if (flight === "slice" || divot === "left") {
-                finalFlaw = "slice";
+            if (currentMode === "driver") {
+                if (flight === "sky" || contact === "high_face") {
+                    finalFlaw = "sky";
+                } else if (flight === "low_heel" || contact === "heel") {
+                    finalFlaw = "low_heel";
+                } else if (flight === "hook" || pressure === "hook") {
+                    finalFlaw = "hook";
+                } else {
+                    finalFlaw = "slice";
+                }
+            } else if (currentMode === "irons") {
+                if (flight === "shank" || contact === "heel") {
+                    finalFlaw = "shank";
+                } else if (flight === "chunk" || divot === "chunk") {
+                    finalFlaw = "chunk";
+                } else if (flight === "blade" || contact === "bottom_edge") {
+                    finalFlaw = "blade";
+                } else {
+                    finalFlaw = "slice";
+                }
+            } else if (currentMode === "wedges") {
+                if (flight === "chunk" || divot === "chunk") {
+                    finalFlaw = "chunk";
+                } else if (flight === "blade" || contact === "bottom_edge") {
+                    finalFlaw = "blade";
+                } else {
+                    finalFlaw = "double_hit";
+                }
+            } else if (currentMode === "putting") {
+                if (flight === "pull" || pressure === "pull") {
+                    finalFlaw = "pull";
+                } else if (flight === "distance" || contact === "toe" || contact === "heel") {
+                    finalFlaw = "distance";
+                } else {
+                    finalFlaw = "push";
+                }
+            }
+
+            // Fallback safety filter validation check
+            if (!currentFlawList.includes(finalFlaw)) {
+                finalFlaw = currentFlawList[0];
             }
 
             currentActiveFlawKey = finalFlaw;
-            currentActiveContextLabel = "Symptom Analysis Match";
+            currentActiveContextLabel = "Quiz Match";
             
             renderAdviceOutput();
             document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
