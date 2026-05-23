@@ -775,6 +775,7 @@
                     flight: [
                         { val: "slice", txt: "Banana Slice (Curves hard right)" },
                         { val: "hook", txt: "Snap Hook (Dives hard left)" },
+                        { val: "whiff", txt: "Whiffing (Missing the ball completely)" },
                         { val: "sky", txt: "Skyball (Pops straight up into air)" },
                         { val: "low_heel", txt: "Low heel stingers / Missed left" }
                     ],
@@ -782,6 +783,7 @@
                         { val: "heel", txt: "Heel strike / Near the shaft" },
                         { val: "toe", txt: "Toe strike / Out on the edge" },
                         { val: "high_face", txt: "Top edge / Crown line" },
+                        { val: "miss", txt: "No contact / Total air ball" },
                         { val: "center", txt: "Center face but inconsistent" }
                     ],
                     divot: [
@@ -791,7 +793,8 @@
                     ],
                     pressure: [
                         { val: "slice", txt: "High weak block right" },
-                        { val: "hook", txt: "Screaming low dynamic hook left" }
+                        { val: "hook", txt: "Screaming low dynamic hook left" },
+                        { val: "whiff", txt: "Embarrassing clean air swing" }
                     ]
                 },
                 flaws: {
@@ -831,6 +834,25 @@
                             setupFix: "Eliminate early hip slide mechanics that clear structural workspace and trigger automatic reactive hand flips.",
                             drill: "The Rotation Post Check: Work against an alignment rod fixed behind your lead hip to ensure clean rotational torque.",
                             practicePlan: "Hit 15 dynamic balls chasing a high, holding fade trajectory to actively shift dynamic delivery parameters."
+                        }
+                    },
+                    whiff: {
+                        title: "The Driver Whiff (Complete Miss)",
+                        gear: [{ name: "Visual Alignment Ball Marker Guide", link: "https://amzn.to/3Q7Yn6b" }],
+                        beginner: {
+                            setupFix: "Widen your stance slightly for structural stability and look directly at the back back quadrant of the ball, keeping your head totally steady behind the ball.",
+                            drill: "The Continuous Solo Sweep: Take 10 slow, smooth practice swings focusing entirely on keeping your feet balanced and touching the grass in the center.",
+                            practicePlan: "Hit 10 teed balls utilizing strict half-power swings to establish horizontal eye-to-face mapping baseline habits."
+                        },
+                        mid: {
+                            setupFix: "Establish stable knee flex angles at address and avoid early torso rising movements during the takeaway phase.",
+                            drill: "The Fixed Center Shadow: Keep your head perfectly aligned inside a shadow line, ensuring zero swaying backward or lifting throughout your arc.",
+                            practicePlan: "Execute 15 structural driver swings at 60% speed, emphasizing deep center solid impact stability."
+                        },
+                        advanced: {
+                            setupFix: "Eliminate severe early hip extensions that thrust your center closer to the ball and shift the vertical swinging plane completely out of square.",
+                            drill: "The Stable Radius Lock: Focus on preserving identical distance parameters from your chest to the grip throughout the drop transition zone.",
+                            practicePlan: "Execute 15 ball cycles under data tracking targets, optimizing solid center contact parameters."
                         }
                     },
                     sky: {
@@ -879,6 +901,7 @@
                     flight: [
                         { val: "shank", txt: "Hosel Rocket / Violent Right (Shank)" },
                         { val: "slice", txt: "Weak Cutting Slice Right" },
+                        { val: "whiff", txt: "Whiffing (Missing the ball completely)" },
                         { val: "chunk", txt: "Fat / Deep Ground Contact First" },
                         { val: "blade", txt: "Thin Skulled / Low Bladed Shot" }
                     ],
@@ -886,6 +909,7 @@
                         { val: "heel", txt: "In on the absolute hosel connector" },
                         { val: "toe", txt: "Deep toe mark alignment" },
                         { val: "bottom_edge", txt: "Leading blade / bottom sharp edge" },
+                        { val: "miss", txt: "Lifting clean over the ball edge" },
                         { val: "center", txt: "Clean face but bad entry angle" }
                     ],
                     divot: [
@@ -895,7 +919,8 @@
                     ],
                     pressure: [
                         { val: "chunk", txt: "Heavy chunk direct into grass" },
-                        { val: "shank", txt: "Terrifying shank when tense" }
+                        { val: "shank", txt: "Terrifying shank when tense" },
+                        { val: "whiff", txt: "Panicked lifting clean miss" }
                     ]
                 },
                 flaws: {
@@ -935,6 +960,25 @@
                             setupFix: "Check for an over-extended lead wrist profile at the top of your backswing. Bow or flatten it to square the face early.",
                             drill: "The Extreme Path Extension: Track an inside-to-out delivery line toward an objective marker placed right of the target.",
                             practicePlan: "Hit 15 continuous iron shots, focusing on generating a clean, running draw shape."
+                        }
+                    },
+                    whiff: {
+                        title: "The Iron Whiff (Complete Miss)",
+                        gear: [{ name: "Visual Alignment Ball Marker Guide", link: "https://amzn.to/3Q7Yn6b" }],
+                        beginner: {
+                            setupFix: "Do not lift your body up during the backswing. Stand tall but balanced and keep your knees flexing softly through address.",
+                            drill: "The Continuous Floor Brush: Complete 10 easy practice strokes focusing fully on hearing the iron base click the mat or grass on every round.",
+                            practicePlan: "Hit 12 simple irons off a low tee setting to comfortably match your swing radius with the ball center."
+                        },
+                        mid: {
+                            setupFix: "Maintain your chest positioning directly over the ball at address to secure a stable forward tracking center point.",
+                            drill: "The Constant Posture Lock: Practice smooth structural turns while focusing on keeping your ears at an identical height line.",
+                            practicePlan: "Execute 15 ball tracks using regular iron setups, ensuring consistent crisp turf clipping interactions."
+                        },
+                        advanced: {
+                            setupFix: "Fix early pelvic thrust extensions that force your arms to retract and pull the lower baseline upward.",
+                            drill: "The Ground Torque Anchor: Work on building stable downward weight shifts onto your front side during early downswing phases.",
+                            practicePlan: "Perform 15 compression iron shots, keeping down-swing tracking variables completely stabilized."
                         }
                     },
                     chunk: {
@@ -1444,7 +1488,9 @@
             const currentFlawList = Object.keys(multiModeData[currentMode].flaws);
 
             if (currentMode === "driver") {
-                if (flight === "sky" || contact === "high_face") {
+                if (flight === "whiff" || contact === "miss" || pressure === "whiff") {
+                    finalFlaw = "whiff";
+                } else if (flight === "sky" || contact === "high_face") {
                     finalFlaw = "sky";
                 } else if (flight === "low_heel" || contact === "heel") {
                     finalFlaw = "low_heel";
@@ -1454,7 +1500,9 @@
                     finalFlaw = "slice";
                 }
             } else if (currentMode === "irons") {
-                if (flight === "shank" || contact === "heel") {
+                if (flight === "whiff" || contact === "miss" || pressure === "whiff") {
+                    finalFlaw = "whiff";
+                } else if (flight === "shank" || contact === "heel") {
                     finalFlaw = "shank";
                 } else if (flight === "chunk" || divot === "chunk") {
                     finalFlaw = "chunk";
