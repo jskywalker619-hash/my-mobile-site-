@@ -169,12 +169,6 @@
             text-align: center;
         }
 
-        .action-btn.secondary {
-            background: #ffffff;
-            color: #1b4332;
-            border: 1px solid #1b4332;
-        }
-
         /* --- RETENTION: Community Feed Ticker --- */
         .community-card {
             background: #1b4332;
@@ -205,7 +199,7 @@
             background: #e2e8f0;
             padding: 4px;
             border-radius: 12px;
-            margin: 20px 0;
+            margin-bottom: 20px;
             gap: 4px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
@@ -447,7 +441,7 @@
             font-size: 14px;
         }
 
-        /* --- Core Homepage Curated Showcase Elements --- */
+        /* --- Above the Fold Master Showcase Styles --- */
         .homepage-gear-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -586,24 +580,21 @@
 </head>
 <body>
 
-    <!-- Header & Logo Layout -->
+    <!-- 1. Header & Logo Layout -->
     <header>
         <div class="logo-container">
             <span class="logo-drill">Drill</span><span class="logo-caddie">Caddie</span><span class="logo-dot">.</span>
         </div>
         <p>Real-time fixes for your practice range session.</p>
-        <!-- Quick Bookmark Access Feature Button -->
         <button class="header-fav-shortcut" onclick="openModal('favorites-modal')" title="View Bookmarked Drills">★</button>
     </header>
 
-    <!-- NEW RETENTION ELEMENT: Live Activity Ticker Feed -->
+    <!-- 2. Retention Activity Ticker Feed -->
     <div class="community-card">
-        <div class="feed-item" id="ticker-content">
-            ⛳️ Loading active range updates...
-        </div>
+        <div class="feed-item" id="ticker-content">⛳️ Loading active range updates...</div>
     </div>
 
-    <!-- NEW RETENTION ELEMENT: Local Performance Tracker Dashboard -->
+    <!-- 3. Performance Tracker Dashboard -->
     <div class="dashboard-card">
         <div class="db-header">
             <span style="font-weight: 800; font-size: 15px; color:#1b4332; text-transform: uppercase;">Range Progress</span>
@@ -626,7 +617,30 @@
         </div>
     </div>
 
-    <!-- Club Mode Selector Bar Component -->
+    <!-- 4. HIGH CONVERSION INSERTION: Visual Product Curated Hub -->
+    <div class="section-title">Essential Range Training Tools</div>
+    <div class="homepage-gear-grid">
+        <div class="homepage-gear-card">
+            <span class="homepage-gear-tag">Path Correction</span>
+            <p class="gear-title">Golf Alignment Sticks (2-Pack)</p>
+            <p class="homepage-gear-desc">The ultimate range standard. Vital for setting target line boundaries and fixing out-to-in paths instantly.</p>
+            <a href="https://amzn.to/4v1BY9T" target="_blank" rel="noopener noreferrer" class="amazon-btn">Unlock Instant Swing Path Feedback ➔</a>
+        </div>
+        <div class="homepage-gear-card">
+            <span class="homepage-gear-tag">Strike Feedback</span>
+            <p class="gear-title">Golf Divot Dynamic Tracking Mat</p>
+            <p class="homepage-gear-desc">Gives instant visual feedback on exactly where your iron bottomed out. Essential for identifying heavy fat chunks and bladed sweeps in real-time.</p>
+            <a href="https://amzn.to/49UE9DM" target="_blank" rel="noopener noreferrer" class="amazon-btn">Stop Chunking Your Irons — View on Amazon ➔</a>
+        </div>
+        <div class="homepage-gear-card">
+            <span class="homepage-gear-tag">Face Contact Mapping</span>
+            <p class="gear-title">Premium Golf Impact Tape</p>
+            <p class="homepage-gear-desc">Shows you exactly where the ball meets the club face. Crucial for diagnosing driver heel strikes, high crown skyballs, and low face misses.</p>
+            <a href="https://amzn.to/3WhiteMdsN" target="_blank" rel="noopener noreferrer" class="amazon-btn">Reveal Your Face Strike Location ➔</a>
+        </div>
+    </div>
+
+    <!-- 5. Interactive Drill Funnel Entry Points -->
     <div class="section-title">Select Club Mode</div>
     <div class="mode-container">
         <button class="mode-btn active" data-mode="driver" onclick="switchClubMode('driver')">Driver</button>
@@ -635,45 +649,30 @@
         <button class="mode-btn" data-mode="putting" onclick="switchClubMode('putting')">Putting</button>
     </div>
 
-    <!-- Option A: Direct Miss Buttons (Dynamic Inject) -->
     <div class="section-title" id="quick-fix-heading">Quick Fix Selection</div>
-    <div class="selector-container" id="quick-buttons-wrapper">
-        <!-- Buttons are dynamically generated based on currentMode -->
-    </div>
+    <div class="selector-container" id="quick-buttons-wrapper"></div>
 
     <hr style="border: 0; border-top: 1px solid #ccd3ce; margin: 30px 0;">
 
-    <!-- Option B: Diagnostic Symptom Flow (Dynamic Options) -->
     <div class="section-title">Swing Diagnosis Quiz</div>
     <div class="quiz-card">
-        
         <div class="quiz-step-title" id="quiz-step-1-title">1. Ball Flight / Result</div>
-        <select id="quiz-flight" class="quiz-select">
-            <!-- Dynamic Injection -->
-        </select>
+        <select id="quiz-flight" class="quiz-select"></select>
 
         <div class="quiz-step-title" id="quiz-step-2-title">2. Contact Location on Face</div>
-        <select id="quiz-contact" class="quiz-select">
-            <!-- Dynamic Injection -->
-        </select>
+        <select id="quiz-contact" class="quiz-select"></select>
 
         <div class="quiz-step-title" id="quiz-step-3-title">3. Dynamic Strike Profile</div>
-        <select id="quiz-divot" class="quiz-select">
-            <!-- Dynamic Injection -->
-        </select>
+        <select id="quiz-divot" class="quiz-select"></select>
 
         <div class="quiz-step-title" id="quiz-step-4-title">4. Common Miss Under Pressure</div>
-        <select id="quiz-pressure" class="quiz-select">
-            <!-- Dynamic Injection -->
-        </select>
+        <select id="quiz-pressure" class="quiz-select"></select>
 
         <button class="diagnose-btn" onclick="runQuizDiagnosis()">Diagnose My Symptoms</button>
     </div>
 
-    <!-- Unified Master Output Card Display Area -->
+    <!-- 6. Output Presentation Display Card -->
     <div id="result-display" class="result-card">
-        
-        <!-- Handicap Dynamic Level Filters UI Component -->
         <div class="quiz-step-title" style="margin-bottom:6px; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Adapt Advice To Your Level:</div>
         <div class="handicap-filter-container">
             <button class="handicap-tab active" data-level="beginner" onclick="changeHandicapLevel('beginner')">Beginner (HCP 25+)</button>
@@ -683,7 +682,6 @@
 
         <div class="card-header-flex">
             <div class="flaw-badge" id="res-badge-context">Analysis Complete</div>
-            <!-- RETENTION ELEMENT: Bookmark Favorite Toggle Button -->
             <button id="favorite-toggle-icon" class="favorite-btn" onclick="toggleFavoriteDrill()">★</button>
         </div>
         
@@ -691,89 +689,54 @@
         
         <div class="result-section">
             <h3>Setup Fix</h3>
-            <p id="res-setup-fix">Instructions to fix alignment or stance before moving.</p>
+            <p id="res-setup-fix"></p>
         </div>
 
         <div class="result-section">
             <h3>Corrective Drill</h3>
-            <p id="res-drill">The primary mechanical movement fix drill.</p>
+            <p id="res-drill"></p>
         </div>
 
         <div class="result-section">
             <h3>Structured Practice Plan</h3>
-            <p id="res-practice-plan">Reps, sets, and focus checkpoints.</p>
+            <p id="res-practice-plan"></p>
         </div>
 
-        <!-- Dynamic Amazon Affiliate Integration -->
         <div class="gear-section">
             <h3 style="color:#1b4332; font-size:14px; margin-bottom: 12px;">Recommended Range Tools For This Plan:</h3>
-            <div id="gear-container">
-                <!-- Amazon tools injected dynamically -->
-            </div>
+            <div id="gear-container"></div>
         </div>
     </div>
 
-    <!-- STATIC HOMEPAGE COMPLIANT AFFILIATE LINK SHOWCASE -->
-    <div class="section-title">Essential Range Gear</div>
-    <div class="homepage-gear-grid">
-        
-        <div class="homepage-gear-card">
-            <span class="homepage-gear-tag">Path & Alignment</span>
-            <p class="gear-title">Golf Alignment Sticks (2-Pack)</p>
-            <p class="homepage-gear-desc">The ultimate range setup standard. Essential for guarding swing path gates, verifying target line alignment, and setting ball position boundaries.</p>
-            <a href="https://amzn.to/4v1BY9T" target="_blank" rel="noopener noreferrer" class="amazon-btn">Check Current Price on Amazon ➔</a>
-        </div>
-
-        <div class="homepage-gear-card">
-            <span class="homepage-gear-tag">Strike Feedback</span>
-            <p class="gear-title">Golf Divot Dynamic Tracking Mat</p>
-            <p class="homepage-gear-desc">Gives instant visual feedback on exactly where your iron bottomed out. Essential for identifying heavy fat chunks and bladed sweeps in real-time.</p>
-            <a href="https://amzn.to/49UE9DM" target="_blank" rel="noopener noreferrer" class="amazon-btn">Check Current Price on Amazon ➔</a>
-        </div>
-
-        <div class="homepage-gear-card">
-            <span class="homepage-gear-tag">Face Contact Mapping</span>
-            <p class="gear-title">Premium Golf Impact Tape</p>
-            <p class="homepage-gear-desc">Shows you exactly where the ball meets the club face. Crucial for diagnosing driver heel strikes, high crown skyballs, and low face misses.</p>
-            <a href="https://amzn.to/3WhiteMdsN" target="_blank" rel="noopener noreferrer" class="amazon-btn">Check Current Price on Amazon ➔</a>
-        </div>
-
-    </div>
-
-    <!-- RETENTION COMPONENT: Log Data Bottom Sheet Modal -->
+    <!-- Log Data Bottom Sheet Modal -->
     <div id="log-stat-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'log-stat-modal')">
         <div class="modal-sheet">
             <div class="modal-title">Log Tracker Session</div>
-            
             <div class="quiz-step-title">Fairway Target Outcome</div>
             <div class="toggle-grid">
                 <div class="toggle-item" id="fw-hit" onclick="toggleModalSelect('fw-hit', 'fw-miss')">Hit Fairway</div>
                 <div class="toggle-item" id="fw-miss" onclick="toggleModalSelect('fw-miss', 'fw-hit')">Missed Track</div>
             </div>
-
             <div class="quiz-step-title">Green in Regulation (GIR)</div>
             <div class="toggle-grid">
                 <div class="toggle-item" id="gir-hit" onclick="toggleModalSelect('gir-hit', 'gir-miss')">Hit Green</div>
                 <div class="toggle-item" id="gir-miss" onclick="toggleModalSelect('gir-miss', 'gir-hit')">Missed Green</div>
             </div>
-
             <button class="diagnose-btn" onclick="saveLoggedStats()">Save Entry & Update Streak</button>
             <button class="modal-close-btn" onclick="closeModal('log-stat-modal')">Close Window</button>
         </div>
     </div>
 
-    <!-- RETENTION COMPONENT: Curated Bookmark Library Modal -->
+    <!-- Curated Bookmark Library Modal -->
     <div id="favorites-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'favorites-modal')">
         <div class="modal-sheet">
             <div class="modal-title">Your Saved Drills</div>
-            <div id="favorites-container-list">
-                <!-- Active bookmark list items injected here -->
-            </div>
+            <div id="favorites-container-list"></div>
             <button class="modal-close-btn" onclick="closeModal('favorites-modal')">Return to Session</button>
         </div>
     </div>
 
-    <!-- Mandatory Amazon Associates Terms of Service Legal Requirement Footer -->
+    <!-- Amazon Disclaimer Footer -->
     <footer class="affiliate-disclaimer">
         As an Amazon Associate, DrillCaddie earns from qualifying purchases. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.
     </footer>
@@ -793,10 +756,9 @@
             fairwaysTotal: 0,
             girHit: 0,
             girTotal: 0,
-            savedDrills: [] // Stores objects containing {mode, flawKey, title}
+            savedDrills: []
         };
 
-        // Simulated community broadcast items database
         const globalCommunityTickerEvents = [
             "User411 logged in an Over-The-Top Slice fix matching Driver mode.",
             "Scratch player logged a perfect 10/10 Greens In Regulation profile.",
@@ -805,7 +767,7 @@
             "User106 converted a Banana Slice error to hit center alignment goals."
         ];
 
-        // Multi-Mode Multi-Tier Dynamic Database Framework
+        // Master Application Database Matrix
         const multiModeData = {
             driver: {
                 labels: { quickHeading: "Option 1: Fix My Driver", step3: "3. Tee / Ground Contact" },
@@ -868,7 +830,7 @@
                         advanced: {
                             setupFix: "Eliminate early hip slide mechanics that clear structural workspace and trigger automatic reactive hand flips.",
                             drill: "The Rotation Post Check: Work against an alignment rod fixed behind your lead hip to ensure clean rotational torque.",
-                            practicePlan: "Hit 15 balls chasing a high, holding fade trajectory to actively shift dynamic delivery parameters."
+                            practicePlan: "Hit 15 dynamic balls chasing a high, holding fade trajectory to actively shift dynamic delivery parameters."
                         }
                     },
                     sky: {
@@ -1182,23 +1144,39 @@
             }
         };
 
-        // Initialize App UI States On Load
+        // Initialize Application
         window.addEventListener('DOMContentLoaded', () => {
             loadUserData();
-            switchClubMode('driver');
             startCommunityTicker();
+            
+            // Core URL Parameter Query Interface Parsing Hook Engine
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetMode = urlParams.get('mode');
+            const targetFlaw = urlParams.get('flaw');
+            
+            if (targetMode && multiModeData[targetMode]) {
+                switchClubMode(targetMode);
+                if (targetFlaw && multiModeData[targetMode].flaws[targetFlaw]) {
+                    currentActiveFlawKey = targetFlaw;
+                    currentActiveContextLabel = "Social Link Match";
+                    renderAdviceOutput();
+                    setTimeout(() => {
+                        document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                }
+            } else {
+                switchClubMode('driver'); // Default fallback initialization
+            }
         });
 
-        // Retention Storage Engine
         function loadUserData() {
             const saved = localStorage.getItem('drillcaddie_userdata');
             if (saved) {
                 try {
                     userDataStore = JSON.parse(saved);
-                    // Standard safety default array check
                     if (!Array.isArray(userDataStore.savedDrills)) userDataStore.savedDrills = [];
                 } catch(e) {
-                    console.error("Data store rebuild required");
+                    console.error("Data store reset execution required");
                 }
             }
             evaluateStreakValidity();
@@ -1221,7 +1199,7 @@
                 const diffTime = Math.abs(date1 - date2);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                 if (diffDays > 1) {
-                    userDataStore.streak = 0; // Streak breaks if inactivity exceeds 24 hrs
+                    userDataStore.streak = 0; 
                 }
             }
         }
@@ -1229,28 +1207,24 @@
         function updateDashboardDOM() {
             document.getElementById('streak-count').innerText = userDataStore.streak;
             
-            // Fairway Calculations
             const fwPct = userDataStore.fairwaysTotal > 0 ? Math.round((userDataStore.fairwaysHit / userDataStore.fairwaysTotal) * 100) : 0;
             document.getElementById('fw-pct').innerText = `${fwPct}%`;
             document.getElementById('fw-bar').style.width = `${fwPct}%`;
 
-            // GIR Calculations
             const girPct = userDataStore.girTotal > 0 ? Math.round((userDataStore.girHit / userDataStore.girTotal) * 100) : 0;
             document.getElementById('gir-pct').innerText = `${girPct}%`;
             document.getElementById('gir-bar').style.width = `${girPct}%`;
         }
 
-        // Live Action Ticker Loop Engine
         function startCommunityTicker() {
             const tickerEl = document.getElementById('ticker-content');
             let idx = 0;
             setInterval(() => {
-                tickerEl.innerText = `⚡️ ${globalCommunityTickerEvents[idx]}`;
+                tickerEl.innerText = `⛳️ ${globalCommunityTickerEvents[idx]}`;
                 idx = (idx + 1) % globalCommunityTickerEvents.length;
             }, 4000);
         }
 
-        // Mode Switching Manager Controller Engine
         function switchClubMode(modeKey) {
             currentMode = modeKey;
             
@@ -1296,7 +1270,6 @@
             });
         }
 
-        // UI View Updater Router Function 
         function renderAdviceOutput() {
             if (!currentActiveFlawKey) return;
             
@@ -1309,7 +1282,6 @@
             document.getElementById("res-drill").innerText = levelData.drill;
             document.getElementById("res-practice-plan").innerText = levelData.practicePlan;
 
-            // Update Bookmark Favorite Icon State
             const favIcon = document.getElementById('favorite-toggle-icon');
             const isFav = userDataStore.savedDrills.some(d => d.mode === currentMode && d.flawKey === currentActiveFlawKey);
             if (isFav) {
@@ -1326,7 +1298,7 @@
                     <div class="gear-card">
                         <p class="gear-title">${item.name}</p>
                         <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="amazon-btn">
-                            View on Amazon ➔
+                            Get This Fix Tool On Amazon ➔
                         </a>
                     </div>
                 `;
@@ -1336,11 +1308,9 @@
             document.getElementById("result-display").style.display = "block";
         }
 
-        // RETENTION: Bookmark Drill Sync Engine 
         function toggleFavoriteDrill() {
             if (!currentActiveFlawKey) return;
             const data = multiModeData[currentMode].flaws[currentActiveFlawKey];
-            
             const existingIdx = userDataStore.savedDrills.findIndex(d => d.mode === currentMode && d.flawKey === currentActiveFlawKey);
             
             if (existingIdx > -1) {
@@ -1356,7 +1326,6 @@
             renderAdviceOutput();
         }
 
-        // Bottom Sheet UI Modal Handlers
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             if (modalId === 'favorites-modal') {
@@ -1377,17 +1346,14 @@
             document.getElementById(targetPairId).classList.remove('selected');
         }
 
-        // Core Entry Submission Business Logic
         function saveLoggedStats() {
             const today = new Date().toDateString();
             
-            // Check and update sequence streak multipliers
             if (userDataStore.lastLoggedDate !== today) {
                 userDataStore.streak += 1;
                 userDataStore.lastLoggedDate = today;
             }
 
-            // Parse Fairway data
             if (document.getElementById('fw-hit').classList.contains('selected')) {
                 userDataStore.fairwaysHit += 1;
                 userDataStore.fairwaysTotal += 1;
@@ -1395,7 +1361,6 @@
                 userDataStore.fairwaysTotal += 1;
             }
 
-            // Parse Green data
             if (document.getElementById('gir-hit').classList.contains('selected')) {
                 userDataStore.girHit += 1;
                 userDataStore.girTotal += 1;
@@ -1403,7 +1368,6 @@
                 userDataStore.girTotal += 1;
             }
 
-            // Clear modal visual tracking choices
             document.getElementById('fw-hit').classList.remove('selected');
             document.getElementById('fw-miss').classList.remove('selected');
             document.getElementById('gir-hit').classList.remove('selected');
