@@ -662,6 +662,16 @@
             font-size: 13px;
             font-weight: bold;
         }
+
+        /* Dynamic Targeted Affiliate Banner styling */
+        .targeted-affiliate-card {
+            background: linear-gradient(145deg, #fffbf2, #ffffff);
+            border: 2px solid #ffb703;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 12px 0;
+            box-shadow: 0 4px 8px rgba(255, 183, 3, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -1293,6 +1303,16 @@
             }
         };
 
+        // ITEM 3 Matrix: High-converting dynamic text mapped precisely to user flaws
+        const targetedAffiliateCopy = {
+            slice: "⚠️ Over-The-Top Paths require explicit feedback boundaries. Using these heavy-duty alignment rods on your outer trail line directly forces your swing path back into an inside-out plane, melting away slices.",
+            hook: "⚠️ Early wrist-rolling shuts the clubface instantly. Snapping this precision alignment guide directly onto your grip isolates hand rotation parameters, locking in a flat lead wrist through impact.",
+            chunk: "⚠️ Striking ground before your ball steals massive club distance. Practicing on this dynamic visual tracker leaves a deep physical trace showing your low-point exact location so you stop digging fat chunks.",
+            blade: "⚠️ Early posture liftoff forces thin skulling. Training with a micro-thin strike mat forces clean downward radius compression habits without risking wrist jarring on standard range layouts.",
+            shank: "⚠️ Hosel rockets occur when your swing plane shifts outwards toward the toe. Setting an external path boundary block precisely 1-inch clear of your target line forces hands inward instantly.",
+            whiff: "⚠️ Complete missing happens when eye-to-target tracking drops completely. Placing these high-contrast layout guide lines directly under your horizontal focal setup aligns vision channels flawlessly."
+        };
+
         // Initialize Application
         window.addEventListener('DOMContentLoaded', () => {
             loadUserData();
@@ -1448,10 +1468,17 @@
             const gearContainer = document.getElementById("gear-container");
             gearContainer.innerHTML = "";
             
+            // ITEM 3 IMPLEMENTATION: Inject dynamic hyper-personalized affiliate copy callouts
+            let specificAffiliatePitch = "Accelerate your swing fix tracking by utilizing target line alignment markers during your layout routine.";
+            if (targetedAffiliateCopy[currentActiveFlawKey]) {
+                specificAffiliatePitch = targetedAffiliateCopy[currentActiveFlawKey];
+            }
+
             data.gear.forEach(item => {
                 const gearHTML = `
-                    <div class="gear-card">
-                        <p class="gear-title">${item.name}</p>
+                    <div class="gear-card targeted-affiliate-card">
+                        <p class="gear-title" style="color: #1b4332; font-size: 16px;">🎯 Recommended Fix Tool: ${item.name}</p>
+                        <p style="font-size: 13px; margin: 4px 0 12px 0; color: #475569; line-height: 1.4;">${specificAffiliatePitch}</p>
                         <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="amazon-btn">
                             Get This Fix Tool On Amazon ➔
                         </a>
