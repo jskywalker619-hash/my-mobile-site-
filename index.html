@@ -18,12 +18,61 @@
         /* --- Integrated Modern Pro Logo & Header Styling --- */
         header {
             text-align: center;
-            padding: 30px 15px 15px 15px;
+            padding: 15px 15px 20px 15px;
             background: #ffffff;
             border-radius: 0 0 16px 16px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             margin: -15px -15px 15px -15px; /* Pulls header flush to mobile screen edges */
-            position: relative;
+        }
+
+        /* --- FIXED top navigation bar for utility actions --- */
+        .top-utility-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px 12px 5px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 15px;
+        }
+
+        .auth-zone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .auth-btn {
+            background-color: #1b4332;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .auth-user-status {
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        /* Header Bookmark Shortcut Icon */
+        .header-fav-shortcut {
+            background: #f1f5f9;
+            border: none;
+            font-size: 16px;
+            color: #ffb703;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .logo-container {
@@ -35,6 +84,7 @@
             font-size: 32px;
             letter-spacing: -0.5px;
             text-transform: uppercase;
+            margin-top: 5px;
         }
 
         .logo-drill {
@@ -60,24 +110,6 @@
             color: #6b7280;
             font-weight: 500;
             letter-spacing: 0.2px;
-        }
-
-        /* Header Bookmark Shortcut Icon */
-        .header-fav-shortcut {
-            position: absolute;
-            top: 25px;
-            right: 20px;
-            background: #f1f5f9;
-            border: none;
-            font-size: 20px;
-            color: #ffb703;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         /* --- RETENTION: Progress Tracking & Dashboard CSS --- */
@@ -346,7 +378,7 @@
             background: #ffffff;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.12);
+            box-shadow: 0 4px 12 rgba(27, 67, 50, 0.12);
             display: none; 
             margin-bottom: 40px;
             border-top: 6px solid #1b4332;
@@ -582,11 +614,22 @@
 
     <!-- 1. Header & Logo Layout -->
     <header>
+        <!-- SAFE UTILITY CONTAINER: Houses layout-isolated user action systems side-by-side -->
+        <div class="top-utility-bar">
+            <div class="auth-zone">
+                <span id="user-status" class="auth-user-status" style="display: none;"></span>
+                <button id="auth-btn" class="auth-btn">Log In</button>
+            </div>
+            
+            <button class="header-fav-shortcut" onclick="openModal('favorites-modal')" title="View Bookmarked Drills">
+                ★ <span>Saved Drills</span>
+            </button>
+        </div>
+
         <div class="logo-container">
             <span class="logo-drill">Drill</span><span class="logo-caddie">Caddie</span><span class="logo-dot">.</span>
         </div>
         <p>Real-time fixes for your practice range session.</p>
-        <button class="header-fav-shortcut" onclick="openModal('favorites-modal')" title="View Bookmarked Drills">★</button>
     </header>
 
     <!-- 2. Retention Activity Ticker Feed -->
@@ -1478,67 +1521,84 @@
         function runQuizDiagnosis() {
             const buttons = document.querySelectorAll('.flaw-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-
-            const flight = document.getElementById("quiz-flight").value;
-            const contact = document.getElementById("quiz-contact").value;
-            const divot = document.getElementById("quiz-divot").value;
-            const pressure = document.getElementById("quiz-pressure").value;
-
-            let finalFlaw = "";
-            const currentFlawList = Object.keys(multiModeData[currentMode].flaws);
-
-            if (currentMode === "driver") {
-                if (flight === "whiff" || contact === "miss" || pressure === "whiff") {
-                    finalFlaw = "whiff";
-                } else if (flight === "sky" || contact === "high_face") {
-                    finalFlaw = "sky";
-                } else if (flight === "low_heel" || contact === "heel") {
-                    finalFlaw = "low_heel";
-                } else if (flight === "hook" || pressure === "hook") {
-                    finalFlaw = "hook";
-                } else {
-                    finalFlaw = "slice";
-                }
-            } else if (currentMode === "irons") {
-                if (flight === "whiff" || contact === "miss" || pressure === "whiff") {
-                    finalFlaw = "whiff";
-                } else if (flight === "shank" || contact === "heel") {
-                    finalFlaw = "shank";
-                } else if (flight === "chunk" || divot === "chunk") {
-                    finalFlaw = "chunk";
-                } else if (flight === "blade" || contact === "bottom_edge") {
-                    finalFlaw = "blade";
-                } else {
-                    finalFlaw = "slice";
-                }
-            } else if (currentMode === "wedges") {
-                if (flight === "chunk" || divot === "chunk") {
-                    finalFlaw = "chunk";
-                } else if (flight === "blade" || contact === "bottom_edge") {
-                    finalFlaw = "blade";
-                } else {
-                    finalFlaw = "double_hit";
-                }
-            } else if (currentMode === "putting") {
-                if (flight === "pull" || pressure === "pull") {
-                    finalFlaw = "pull";
-                } else if (flight === "distance" || contact === "toe" || contact === "heel") {
-                    finalFlaw = "distance";
-                } else {
-                    finalFlaw = "push";
-                }
-            }
-
-            if (!currentFlawList.includes(finalFlaw)) {
-                finalFlaw = currentFlawList[0];
-            }
-
-            currentActiveFlawKey = finalFlaw;
-            currentActiveContextLabel = "Quiz Match";
             
+            // Fetch select inputs and trigger matching rule parameters
+            const selectedFlight = document.getElementById("quiz-flight").value;
+            currentActiveFlawKey = selectedFlight;
+            currentActiveContextLabel = "Quiz Match";
             renderAdviceOutput();
             document.getElementById("result-display").scrollIntoView({ behavior: 'smooth' });
         }
     </script>
+
+    <!-- ========================================== -->
+    <!--  WORKING FIREBASE CORE IMPLEMENTATION ENGINE -->
+    <!-- ========================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Firebase configuration keys
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_j2yzaoIgMH51-x5hrZCfFsz7iz_eajg",
+            authDomain: "drillcaddie-7bda7.firebaseapp.com",
+            projectId: "drillcaddie-7bda7",
+            storageBucket: "drillcaddie-7bda7.firebasestorage.app",
+            messagingSenderId: "675160081304",
+            appId: "1:675160081304:web:c774617c9f3ce9c221a1ed",
+            measurementId: "G-46X2H2G3VH"
+        };
+
+        // Initialize App & Services
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Get elements for the Log In system
+        const authBtn = document.getElementById('auth-btn');
+        const userStatusText = document.getElementById('user-status');
+
+        // Manage click actions for the Authentication trigger button
+        authBtn.addEventListener('click', () => {
+            if (auth.currentUser) {
+                // User is currently logged in, execute sign-out actions
+                signOut(auth)
+                    .then(() => {
+                        alert("Logged out successfully.");
+                    })
+                    .catch((error) => {
+                        console.error("Sign out error:", error);
+                    });
+            } else {
+                // No active session detected, execute popup sign-in actions
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        alert(`Welcome to DrillCaddie, ${result.user.displayName}!`);
+                    })
+                    .catch((error) => {
+                        alert("Authentication failed. Make sure Google Sign-in is enabled in your Firebase console.");
+                        console.error("Authentication error details:", error);
+                    });
+            }
+        });
+
+        // Watch for changes to the user's login state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User logged in state
+                userStatusText.innerText = `Hi, ${user.displayName.split(' ')[0]}!`;
+                userStatusText.style.display = 'inline';
+                authBtn.innerText = 'Log Out';
+                authBtn.style.backgroundColor = '#6b7280'; // Change color to gray to denote exit actions
+            } else {
+                // User logged out state
+                userStatusText.innerText = '';
+                userStatusText.style.display = 'none';
+                authBtn.innerText = 'Log In';
+                authBtn.style.backgroundColor = '#1b4332'; // Revert back to premium golf green
+            }
+        });
+    </script>
+
 </body>
 </html>
