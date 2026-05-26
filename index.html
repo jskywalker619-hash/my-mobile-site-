@@ -187,6 +187,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
+            margin-bottom: 8px;
         }
 
         .action-btn {
@@ -205,6 +206,13 @@
             background: #f1f5f9;
             color: #1b4332;
             border: 1px solid #cbd5e1;
+        }
+
+        .action-btn.yardage-btn {
+            grid-column: span 2;
+            background: #2bc47a;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(43, 196, 122, 0.2);
         }
 
         /* --- RETENTION: Community Feed Ticker --- */
@@ -632,6 +640,66 @@
             color: #1b4332;
         }
 
+        /* --- Yardage Specific Mobile Layout Matrix --- */
+        .yardage-input-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .yardage-input-field {
+            width: 100%;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #ccd3ce;
+            border-radius: 8px;
+            box-sizing: border-box;
+            -moz-appearance: textfield;
+        }
+
+        .yardage-input-field::-webkit-outer-spin-button,
+        .yardage-input-field::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .yardage-input-field:focus {
+            border-color: #2bc47a;
+            outline: none;
+        }
+
+        .yardage-bag-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .yardage-bag-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .yardage-bag-club {
+            font-weight: bold;
+            color: #1b4332;
+            text-transform: uppercase;
+        }
+
+        .yardage-bag-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: #2bc47a;
+        }
+
         .fav-drill-item, .history-vault-item {
             background: #f8fafc;
             padding: 12px;
@@ -718,6 +786,7 @@
         <div class="action-row">
             <button class="action-btn" onclick="openModal('log-stat-modal')">＋ Log Shot</button>
             <button class="action-btn secondary" onclick="openModal('history-modal')">📂 My Bag History</button>
+            <button class="action-btn yardage-btn" onclick="openModal('yardage-modal')">📊 Stock Yardage Logger</button>
         </div>
     </div>
 
@@ -813,6 +882,52 @@
         </div>
     </div>
 
+    <div id="yardage-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'yardage-modal')">
+        <div class="modal-sheet">
+            <div class="modal-title">📊 Stock Yardage Profile Logger</div>
+            <p style="font-size: 13px; color: #4b5563; margin-top:-10px; margin-bottom:15px;">Warm up fully, then record 5 clean, distinct shots with any club to establish your absolute true average carry data.</p>
+            
+            <div class="quiz-step-title">1. Select Target Profile Club</div>
+            <select id="yardage-club-select" class="quiz-select" style="margin-bottom: 12px;">
+                <option value="Driver">Driver</option>
+                <option value="3-Wood">3-Wood</option>
+                <option value="5-Wood">5-Wood</option>
+                <option value="4-Iron">4-Iron</option>
+                <option value="5-Iron">5-Iron</option>
+                <option value="6-Iron">6-Iron</option>
+                <option value="7-Iron">7-Iron</option>
+                <option value="8-Iron">8-Iron</option>
+                <option value="9-Iron">9-Iron</option>
+                <option value="PW">Pitching Wedge (PW)</option>
+                <option value="GW">Gap Wedge (GW)</option>
+                <option value="SW">Sand Wedge (SW)</option>
+                <option value="LW">Lob Wedge (LW)</option>
+            </select>
+
+            <div class="quiz-step-title">2. Preparation Verification</div>
+            <div class="toggle-grid">
+                <div class="toggle-item" id="warmup-no" onclick="toggleModalSelect('warmup-no', 'warmup-yes')">Still Cold</div>
+                <div class="toggle-item selected" id="warmup-yes" onclick="toggleModalSelect('warmup-yes', 'warmup-no')">Fully Warmed Up 🔥</div>
+            </div>
+
+            <div class="quiz-step-title">3. Input 5 Ball Distances (Yards)</div>
+            <div class="yardage-input-grid">
+                <input type="number" id="y-shot1" class="yardage-input-field" placeholder="P1" min="0" max="400" inputmode="numeric">
+                <input type="number" id="y-shot2" class="yardage-input-field" placeholder="P2" min="0" max="400" inputmode="numeric">
+                <input type="number" id="y-shot3" class="yardage-input-field" placeholder="P3" min="0" max="400" inputmode="numeric">
+                <input type="number" id="y-shot4" class="yardage-input-field" placeholder="P4" min="0" max="400" inputmode="numeric">
+                <input type="number" id="y-shot5" class="yardage-input-field" placeholder="P5" min="0" max="400" inputmode="numeric">
+            </div>
+
+            <button class="diagnose-btn" style="background-color: #2bc47a;" onclick="calculateAndSaveYardage()">Calculate Average & Save ➔</button>
+            
+            <div class="section-title" style="font-size: 14px; margin: 20px 0 8px 0;">📋 Saved Bag Profile Averages</div>
+            <div id="yardage-bag-display" class="yardage-bag-list"></div>
+
+            <button class="modal-close-btn" onclick="closeModal('yardage-modal')" style="margin-top: 15px;">Return to Practice</button>
+        </div>
+    </div>
+
     <div id="log-stat-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event, 'log-stat-modal')">
         <div class="modal-sheet">
             <div class="modal-title">Log Tracker Session</div>
@@ -863,7 +978,7 @@
         let onSwingDiagnosedHook = null; 
         let onHistoryRequestedHook = null;
 
-        // Retention Tracking Persistence Layer States
+        // Retention Tracking Persistence Layer States (Expanded with baseline stock yardages object layout)
         let userDataStore = {
             streak: 0,
             lastLoggedDate: null,
@@ -871,7 +986,8 @@
             fairwaysTotal: 0,
             girHit: 0,
             girTotal: 0,
-            savedDrills: []
+            savedDrills: [],
+            stockYardages: {} 
         };
 
         const globalCommunityTickerEvents = [
@@ -967,7 +1083,7 @@
                         advanced: {
                             setupFix: "Eliminate severe early hip extensions that thrust your center closer to the ball and shift the vertical swinging plane completely out of square.",
                             drill: "Identify early pelvic thrust lines. Maintain original spine tilt angle deep through impact zone. Check extension metrics to lock down radius distances.",
-                            practicePlan: "Execute 15 ball cycles under data tracking targets, optimizing solid center contact parameters."
+                            practicePlan: "Execute 15 ball trials monitoring face contact locations closely via instant tape maps."
                         }
                     },
                     sky: {
@@ -1343,12 +1459,14 @@
                 try {
                     userDataStore = JSON.parse(saved);
                     if (!Array.isArray(userDataStore.savedDrills)) userDataStore.savedDrills = [];
+                    if (!userDataStore.stockYardages) userDataStore.stockYardages = {};
                 } catch(e) {
                     console.error("Data store reset execution required");
                 }
             }
             evaluateStreakValidity();
             updateDashboardDOM();
+            renderYardageBagDisplay();
         }
 
         function saveUserData() {
@@ -1540,6 +1658,64 @@
             document.getElementById("checklist-progress-bar").style.width = `${pct}%`;
         }
 
+        // Stock Yardage Analytical Processing Implementation
+        function calculateAndSaveYardage() {
+            const selectedClub = document.getElementById("yardage-club-select").value;
+            
+            const inputs = [
+                document.getElementById("y-shot1").value,
+                document.getElementById("y-shot2").value,
+                document.getElementById("y-shot3").value,
+                document.getElementById("y-shot4").value,
+                document.getElementById("y-shot5").value
+            ];
+
+            // Convert string inputs to base numbers
+            const values = inputs.map(val => parseFloat(val)).filter(num => !isNaN(num) && num > 0);
+
+            if (values.length < 5) {
+                alert("Please log all 5 structural ball trajectories to calculate an accurate working average!");
+                return;
+            }
+
+            // Continuous running average execution
+            const sum = values.reduce((acc, curr) => acc + curr, 0);
+            const calculatedAverage = Math.round(sum / values.length);
+
+            // Commit structured state directly to LocalStorage object tree nodes
+            userDataStore.stockYardages[selectedClub] = calculatedAverage;
+            saveUserData();
+            renderYardageBagDisplay();
+
+            // Flash reset fields to accept secondary inputs
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`y-shot${i}`).value = "";
+            }
+
+            alert(`Profile Updated! Your calculated stock yardage for your ${selectedClub} is ${calculatedAverage} yards.`);
+        }
+
+        function renderYardageBagDisplay() {
+            const container = document.getElementById("yardage-bag-display");
+            container.innerHTML = "";
+
+            if (!userDataStore.stockYardages || Object.keys(userDataStore.stockYardages).length === 0) {
+                container.innerHTML = `<p style="font-size:12px; color:#64748b; text-align:center; padding: 10px 0;">No yardages logged yet. Hit 5 balls above to begin building your bag chart.</p>`;
+                return;
+            }
+
+            // Render out clean bag list cards items sorted alphabetically/hierarchically 
+            Object.keys(userDataStore.stockYardages).forEach(club => {
+                const itemHTML = `
+                    <div class="yardage-bag-item">
+                        <span class="yardage-bag-club">⛳️ ${club}</span>
+                        <span class="yardage-bag-val">${userDataStore.stockYardages[club]} yds</span>
+                    </div>
+                `;
+                container.innerHTML += itemHTML;
+            });
+        }
+
         function toggleFavoriteDrill() {
             if (!currentActiveFlawKey) return;
             const data = multiModeData[currentMode].flaws[currentActiveFlawKey];
@@ -1695,124 +1871,4 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app); // Database instance initialized
-        const provider = new GoogleAuthProvider();
-
-        const authBtn = document.getElementById('auth-btn');
-        const userStatusText = document.getElementById('user-status');
-
-        // Capture mobile redirect callback data configurations securely
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result?.user) {
-                    alert(`Welcome back to DrillCaddie, ${result.user.displayName}!`);
-                }
-            })
-            .catch((error) => {
-                console.error("Redirect resolution hitch handled:", error);
-            });
-
-        authBtn.addEventListener('click', () => {
-            if (auth.currentUser) {
-                signOut(auth).then(() => alert("Logged out safely."));
-            } else {
-                signInWithPopup(auth, provider)
-                    .catch((error) => {
-                        // Mobile Fail-Safe Trigger Layer
-                        if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-                            signInWithRedirect(auth, provider);
-                        } else {
-                            alert("Connection dropped. Please retry.");
-                            console.error(error);
-                        }
-                    });
-            }
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userStatusText.innerText = `Hi, ${user.displayName.split(' ')[0]}!`;
-                userStatusText.style.display = 'inline';
-                authBtn.innerText = 'Log Out';
-                authBtn.style.backgroundColor = '#6b7280';
-            } else {
-                userStatusText.innerText = '';
-                userStatusText.style.display = 'none';
-                authBtn.innerText = 'Log In';
-                authBtn.style.backgroundColor = '#1b4332';
-                document.getElementById('history-vault-container-list').innerHTML = "";
-            }
-        });
-
-        // ITEM 1 Core Functionality: Live Firestore Diagnosis Saver
-        onSwingDiagnosedHook = async (clubMode, flawTitle, flawKey) => {
-            if (!auth.currentUser) return; // Silent execution return if visitor is an anonymous tier user
-
-            try {
-                await addDoc(collection(db, "swing_history"), {
-                    userId: auth.currentUser.uid,
-                    clubMode: clubMode,
-                    flawTitle: flawTitle,
-                    flawKey: flawKey,
-                    timestamp: new Date().toISOString()
-                });
-                console.log("Logged history entry securely to cloud profile.");
-            } catch (err) {
-                console.error("Cloud database upload pipeline error:", err);
-            }
-        };
-
-        // ITEM 1 Core Functionality: Live Firestore Vault History Loader
-        onHistoryRequestedHook = async () => {
-            const container = document.getElementById('history-vault-container-list');
-            
-            if (!auth.currentUser) {
-                container.innerHTML = `<p style="font-size:13px; color:#64748b; text-align:center; padding: 20px 0;">🔒 Please Log In to sync your swing entries to your personal database bag history vault.</p>`;
-                return;
-            }
-
-            container.innerHTML = `<p style="font-size:13px; color:#64748b; text-align:center; padding: 15px 0;">⚡️ Fetching history files from security nodes...</p>`;
-
-            try {
-                const historyQuery = query(
-                    collection(db, "swing_history"),
-                    where("userId", "==", auth.currentUser.uid),
-                    orderBy("timestamp", "desc"),
-                    limit(20)
-                );
-                
-                const snap = await getDocs(historyQuery);
-                container.innerHTML = "";
-
-                if (snap.empty) {
-                    container.innerHTML = `<p style="font-size:13px; color:#64748b; text-align:center; padding: 20px 0;">No saved database tracks logged yet. Execute diagnosis runs while logged into app profiles.</p>`;
-                    return;
-                }
-
-                snap.forEach((doc) => {
-                    const data = doc.data();
-                    const dateFormatted = new Date(data.timestamp).toLocaleDateString([], {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'});
-                    
-                    const row = document.createElement('div');
-                    row.className = 'history-vault-item';
-                    row.innerHTML = `
-                        <div>
-                            <span style="text-transform:uppercase; font-size:11px; background:#e2e8f0; padding:2px 6px; border-radius:4px; margin-right:4px; color:#1b4332;">${data.clubMode}</span>
-                            <span>${data.flawTitle}</span>
-                            <small class="history-date">Logged: ${dateFormatted}</small>
-                        </div>
-                        <a href="#" class="launch-drill-link" onclick="loadSavedDrillRoute('${data.clubMode}', '${data.flawKey}', 'history-modal')">Load ➔</a>
-                    `;
-                    container.appendChild(row);
-                });
-
-            } catch (err) {
-                console.error("Error drawing cloud history rows:", err);
-                container.innerHTML = `<p style="font-size:12px; color:#ef4444; text-align:center; padding: 15px 0;">Error connecting to Firebase storage logs. Verify rules allow index orders.</p>`;
-            }
-        };
-    </script>
-
-</body>
-</html>
+        const auth = getAuth
