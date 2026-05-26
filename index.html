@@ -248,10 +248,12 @@
             margin-bottom: 20px;
             gap: 4px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
         }
 
         .mode-btn {
             flex: 1;
+            min-width: 70px;
             text-align: center;
             padding: 12px 5px;
             font-size: 14px;
@@ -270,6 +272,16 @@
             background: #1b4332;
             color: #ffffff;
             box-shadow: 0 4px 6px rgba(27, 67, 50, 0.2);
+        }
+
+        .mode-btn.play-btn {
+            background-color: #2bc47a;
+            color: white;
+        }
+        
+        .mode-btn.play-btn.active {
+            background-color: #1b4332;
+            color: #ffffff;
         }
 
         .section-title {
@@ -308,8 +320,8 @@
             color: #ffffff;
         }
 
-        /* Diagnosis Quiz CSS */
-        .quiz-card {
+        /* Diagnosis & Play Card CSS */
+        .quiz-card, .scorecard-card {
             background: #ffffff;
             border-radius: 12px;
             padding: 20px;
@@ -740,6 +752,52 @@
             margin: 12px 0;
             box-shadow: 0 4px 8px rgba(255, 183, 3, 0.1);
         }
+
+        /* --- Score Tracker Specific UI Layout --- */
+        .play-round-container {
+            display: none;
+        }
+        .score-display-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .score-counter-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .score-counter-btn {
+            background: #1b4332;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .score-num-display {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1b4332;
+            min-width: 40px;
+        }
+        .round-stats-summary {
+            background: #eefdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #1b4332;
+        }
     </style>
 </head>
 <body>
@@ -818,28 +876,92 @@
         <button class="mode-btn" data-mode="irons" onclick="switchClubMode('irons')">Irons</button>
         <button class="mode-btn" data-mode="wedges" onclick="switchClubMode('wedges')">Wedges</button>
         <button class="mode-btn" data-mode="putting" onclick="switchClubMode('putting')">Putting</button>
+        <button class="mode-btn play-btn" data-mode="play" onclick="switchClubMode('play')">▶ Play</button>
     </div>
 
-    <div class="section-title" id="quick-fix-heading">Quick Fix Selection</div>
-    <div class="selector-container" id="quick-buttons-wrapper"></div>
+    <div id="swing-diagnostic-container">
+        <div class="section-title" id="quick-fix-heading">Quick Fix Selection</div>
+        <div class="selector-container" id="quick-buttons-wrapper"></div>
 
-    <hr style="border: 0; border-top: 1px solid #ccd3ce; margin: 30px 0;">
+        <hr style="border: 0; border-top: 1px solid #ccd3ce; margin: 30px 0;">
 
-    <div class="section-title">Swing Diagnosis Quiz</div>
-    <div class="quiz-card">
-        <div class="quiz-step-title" id="quiz-step-1-title">1. Ball Flight / Result</div>
-        <select id="quiz-flight" class="quiz-select"></select>
+        <div class="section-title">Swing Diagnosis Quiz</div>
+        <div class="quiz-card">
+            <div class="quiz-step-title" id="quiz-step-1-title">1. Ball Flight / Result</div>
+            <select id="quiz-flight" class="quiz-select"></select>
 
-        <div class="quiz-step-title" id="quiz-step-2-title">2. Contact Location on Face</div>
-        <select id="quiz-contact" class="quiz-select"></select>
+            <div class="quiz-step-title" id="quiz-step-2-title">2. Contact Location on Face</div>
+            <select id="quiz-contact" class="quiz-select"></select>
 
-        <div class="quiz-step-title" id="quiz-step-3-title">3. Dynamic Strike Profile</div>
-        <select id="quiz-divot" class="quiz-select"></select>
+            <div class="quiz-step-title" id="quiz-step-3-title">3. Dynamic Strike Profile</div>
+            <select id="quiz-divot" class="quiz-select"></select>
 
-        <div class="quiz-step-title" id="quiz-step-4-title">4. Common Miss Under Pressure</div>
-        <select id="quiz-pressure" class="quiz-select"></select>
+            <div class="quiz-step-title" id="quiz-step-4-title">4. Common Miss Under Pressure</div>
+            <select id="quiz-pressure" class="quiz-select"></select>
 
-        <button class="diagnose-btn" onclick="runQuizDiagnosis()">Diagnose My Symptoms</button>
+            <button class="diagnose-btn" onclick="runQuizDiagnosis()">Diagnose My Symptoms</button>
+        </div>
+    </div>
+
+    <div id="play-round-container" class="play-round-container">
+        <div class="section-title">On-Course Score & Handicap Tracker</div>
+        <div class="scorecard-card">
+            <div id="setup-round-zone">
+                <div class="quiz-step-title">Select Round Length</div>
+                <div class="toggle-grid">
+                    <div class="toggle-item selected" id="length-9" onclick="setRoundLength(9)">9 Holes</div>
+                    <div class="toggle-item" id="length-18" onclick="setRoundLength(18)">18 Holes</div>
+                </div>
+                <button class="diagnose-btn" style="background-color: #2bc47a;" onclick="startTrackingRound()">Start Fresh Round</button>
+            </div>
+
+            <div id="active-round-zone" style="display:none;">
+                <div class="round-stats-summary">
+                    <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                        <span>Hole: <span id="current-hole-num">1</span> / <span id="total-round-holes">9</span></span>
+                        <span>Total Score: <span id="running-total-strokes">0</span> (<span id="running-to-par">E</span>)</span>
+                    </div>
+                </div>
+
+                <div class="score-display-box">
+                    <div class="quiz-step-title" style="margin-bottom:4px;">Hole Par Selection</div>
+                    <select id="hole-par-select" class="quiz-select" style="margin-bottom:12px; padding:10px;">
+                        <option value="3">Par 3</option>
+                        <option value="4" selected>Par 4</option>
+                        <option value="5">Par 5</option>
+                        <option value="6">Par 6</option>
+                        <option value="7">Par 7</option>
+                    </select>
+
+                    <div class="quiz-step-title" style="margin-bottom:0;">Strokes Incurred</div>
+                    <div class="score-counter-flex">
+                        <button class="score-counter-btn" onclick="adjustHoleScore(-1)">−</button>
+                        <span id="hole-score-display" class="score-num-display">4</span>
+                        <button class="score-counter-btn" onclick="adjustHoleScore(1)">＋</button>
+                    </div>
+                </div>
+
+                <button id="next-hole-action-btn" class="diagnose-btn" onclick="advanceToNextHole()">Next Hole ➔</button>
+            </div>
+
+            <div id="summary-round-zone" style="display:none; text-align:center;">
+                <div class="flaw-badge" style="background-color:#1b4332; color:white; padding:6px 12px; font-size:14px; margin-bottom:10px;">Round Complete!</div>
+                <h2 style="color:#1b4332; margin:5px 0 15px 0;">Round Summary</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Gross Score</div>
+                        <div class="stat-value" id="final-gross-score">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Calculated Handicap Differential</div>
+                        <div class="stat-value" id="calculated-handicap-val" style="color:#2bc47a;">0.0</div>
+                    </div>
+                </div>
+                <p style="font-size:13px; color:#64748b; line-height:1.4; margin-bottom:15px;">Handicap calculations assume standard modern Course Rating & Slope values (72.0 / 113) for quick estimation parameters.</p>
+                <button class="diagnose-btn" onclick="resetRoundTrackerSetup()">Track Another Round</button>
+            </div>
+        </div>
     </div>
 
     <div id="result-display" class="result-card">
@@ -978,6 +1100,15 @@
         let onSwingDiagnosedHook = null; 
         let onHistoryRequestedHook = null;
 
+        // Round Tracker State Architecture
+        let activeRoundData = {
+            totalHoles: 9,
+            currentHoleIndex: 1,
+            parValues: [],
+            scoreValues: [],
+            currentHoleScore: 4
+        };
+
         // Retention Tracking Persistence Layer States (Expanded with baseline stock yardages object layout)
         let userDataStore = {
             streak: 0,
@@ -1044,7 +1175,7 @@
                         },
                         advanced: {
                             setupFix: "Check wrist extension profiles at peak backswing. Ensure your lead wrist maintains flat or slightly bowed parameters.",
-                            drill: "Verify lead wrist profile sits flat or bowed at peak. Trace lower exit visualization parameters down impact lane. Alternate low push-draw paths.",
+                            drill: "Verify lead wrist profile status at peak. Trace lower exit visualization parameters down impact lane. Alternate low push-draw paths.",
                             practicePlan: "Hit 15 structured balls alternating low push-draw shapes to force an active path reset."
                         }
                     },
@@ -1523,6 +1654,21 @@
                 }
             });
 
+            // Route standard diagnosis panels vs our Play tab view
+            const standardFixZone = document.getElementById("swing-diagnostic-container");
+            const courseTrackerZone = document.getElementById("play-round-container");
+            const resultZone = document.getElementById("result-display");
+
+            if (modeKey === 'play') {
+                standardFixZone.style.display = "none";
+                resultZone.style.display = "none";
+                courseTrackerZone.style.display = "block";
+                return;
+            } else {
+                courseTrackerZone.style.display = "none";
+                standardFixZone.style.display = "block";
+            }
+
             const modeConfig = multiModeData[modeKey];
             document.getElementById("quick-fix-heading").innerText = modeConfig.labels.quickHeading;
             document.getElementById("quiz-step-3-title").innerText = modeConfig.labels.step3;
@@ -1543,6 +1689,107 @@
 
             document.getElementById("result-display").style.display = "none";
             currentActiveFlawKey = "";
+        }
+
+        /* --- COURSE TRACKING ENGINE OPERATIONS --- */
+        function setRoundLength(lengthVal) {
+            activeRoundData.totalHoles = lengthVal;
+            document.getElementById('length-9').classList.toggle('selected', lengthVal === 9);
+            document.getElementById('length-18').classList.toggle('selected', lengthVal === 18);
+        }
+
+        function startTrackingRound() {
+            activeRoundData.currentHoleIndex = 1;
+            activeRoundData.parValues = [];
+            activeRoundData.scoreValues = [];
+            
+            document.getElementById('setup-round-zone').style.display = "none";
+            document.getElementById('summary-round-zone').style.display = "none";
+            document.getElementById('active-round-zone').style.display = "block";
+            
+            resetHoleInputState();
+            updateRunningTotalsDOM();
+        }
+
+        function resetHoleInputState() {
+            document.getElementById('current-hole-num').innerText = activeRoundData.currentHoleIndex;
+            document.getElementById('total-round-holes').innerText = activeRoundData.totalHoles;
+            
+            // Auto-default to par 4 parameters 
+            document.getElementById('hole-par-select').value = "4";
+            activeRoundData.currentHoleScore = 4;
+            document.getElementById('hole-score-display').innerText = 4;
+
+            const nextBtn = document.getElementById('next-hole-action-btn');
+            if (activeRoundData.currentHoleIndex === activeRoundData.totalHoles) {
+                nextBtn.innerText = "Complete Round & Calculate Handicap ➔";
+                nextBtn.style.backgroundColor = "#2bc47a";
+            } else {
+                nextBtn.innerText = "Next Hole ➔";
+                nextBtn.style.backgroundColor = "#1b4332";
+            }
+        }
+
+        function adjustHoleScore(delta) {
+            activeRoundData.currentHoleScore = Math.max(1, activeRoundData.currentHoleScore + delta);
+            document.getElementById('hole-score-display').innerText = activeRoundData.currentHoleScore;
+        }
+
+        function advanceToNextHole() {
+            const selectedPar = parseInt(document.getElementById('hole-par-select').value);
+            activeRoundData.parValues.push(selectedPar);
+            activeRoundData.scoreValues.push(activeRoundData.currentHoleScore);
+
+            if (activeRoundData.currentHoleIndex >= activeRoundData.totalHoles) {
+                compileRoundHandicapMetrics();
+            } else {
+                activeRoundData.currentHoleIndex++;
+                resetHoleInputState();
+                updateRunningTotalsDOM();
+            }
+        }
+
+        function updateRunningTotalsDOM() {
+            const totalStrokes = activeRoundData.scoreValues.reduce((a, b) => a + b, 0);
+            const totalParValue = activeRoundData.parValues.reduce((a, b) => a + b, 0);
+            
+            document.getElementById('running-total-strokes').innerText = totalStrokes;
+            
+            const relToPar = totalStrokes - totalParValue;
+            if (relToPar === 0) {
+                document.getElementById('running-to-par').innerText = "E";
+            } else if (relToPar > 0) {
+                document.getElementById('running-to-par').innerText = `+${relToPar}`;
+            } else {
+                document.getElementById('running-to-par').innerText = relToPar;
+            }
+        }
+
+        function compileRoundHandicapMetrics() {
+            const finalGross = activeRoundData.scoreValues.reduce((a, b) => a + b, 0);
+            
+            // Standard Handicap Differential Baseline Logic Engine Mapping
+            // Formula: (Gross Score - Course Rating) * 113 / Course Slope
+            let standardRating = activeRoundData.totalHoles === 9 ? 36.0 : 72.0;
+            let standardSlope = 113;
+            
+            let estimatedDiff = (finalGross - standardRating) * 113 / standardSlope;
+            
+            // Normalize 9 hole calculations up to full 18-hole values for index scaling
+            if (activeRoundData.totalHoles === 9) {
+                estimatedDiff = estimatedDiff * 2.0;
+            }
+
+            document.getElementById('final-gross-score').innerText = finalGross;
+            document.getElementById('calculated-handicap-val').innerText = estimatedDiff.toFixed(1);
+
+            document.getElementById('active-round-zone').style.display = "none";
+            document.getElementById('summary-round-zone').style.display = "block";
+        }
+
+        function resetRoundTrackerSetup() {
+            document.getElementById('summary-round-zone').style.display = "none";
+            document.getElementById('setup-round-zone').style.display = "block";
         }
 
         function injectSelectOptions(elementId, optionsArray) {
@@ -1871,4 +2118,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth
+        const auth = getAuth(app);
+    </script>
+</body>
+</html>
