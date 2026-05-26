@@ -2102,7 +2102,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         // Import Firestore to power Item 1 (The "My Bag" Vault database logging)
         import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -2119,6 +2119,115 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUserRef = null;
+
+        // Firebase Authentication State Listener
+        onAuthStateChanged(auth, (user) => {
+            const statusText = document.getElementById("user-status");
+            const authBtn = document.getElementById("auth-btn");
+
+            if (user) {
+                currentUserRef = user;
+                statusText.innerText = `👋🏼 ${user.displayName || 'Golfer'}`;
+                statusText.style.display = "inline";
+                authBtn.innerText = "Log Out";
+            } else {
+                currentUserRef = null;
+                statusText.style.display = "none";
+                authBtn.innerText = "Log In";
+            }
+        });
+
+        // Auth click entry-route assignment logic
+        document.getElementById("auth-btn").addEventListener("click", () => {
+            if (currentUserRef) {
+                signOut(auth).then(() => {
+                    alert("Logged out successfully.");
+                });
+            } else {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider).catch((error) => {
+                    console.error("Auth Exception Incurred: ", error);
+                });
+            }
+        });
+
+        // ITEM 1 PIPELINE: Hook execution script mapping diagnostic trends down into user account histories
+        onSwingDiagnosedHook = async (modeKey, flawTitle, flawKey) => {
+            if (!currentUserRef) return; // Silent execution return if hitting ranges unauthenticated
+
+            try {
+                await addDoc(collection(db, "swing_history"), {
+                    userId: currentUserRef.uid,
+                    clubMode: modeKey,
+                    flawTitle: flawTitle,
+                    flawKey: flawKey,
+                    timestamp: new Date().toISOString()
+                });
+                console.log("Database transaction complete: Vault history captured.");
+            } catch (err) {
+                console.error("Failed to commit historical transaction logs down to Firestore cluster: ", err);
+            }
+        };
+
+        // ITEM 1 VISUALIZATION: Pull structured records down to paint historical trends inside the modal frame
+        onHistoryRequestedHook = async () => {
+            const displayList = document.getElementById("history-vault-container-list");
+            displayList.innerHTML = `<p style="font-size:13px; color:#64748b; text-align:center; padding:15px 0;">🔍 Reading database streams...</p>`;
+
+            if (!currentUserRef) {
+                displayList.innerHTML = `
+                    <div style="text-align:center; padding: 20px 10px;">
+                        <p style="font-size:14px; color:#475569; font-weight:600; margin-bottom:12px;">Authentication Profile Missing</p>
+                        <p style="font-size:12px; color:#64748b; line-height:1.4; margin-bottom:15px;">Please log into your Google account above to unlock automated lifetime database backup sync capabilities for your range sessions.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const historyQuery = query(
+                    collection(db, "swing_history"),
+                    where("userId", "==", currentUserRef.uid),
+                    orderBy("timestamp", "desc"),
+                    limit(15)
+                );
+
+                const snapshot = await getDocs(historyQuery);
+                displayList.innerHTML = "";
+
+                if (snapshot.empty) {
+                    displayList.innerHTML = `<p style="font-size:13px; color:#64748b; text-align:center; padding:15px 0;">Your vault is currently empty. Run a quick-fix or diagnostic quiz above to write your first entry.</p>`;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const record = doc.data();
+                    const cleanDate = record.timestamp ? new Date(record.timestamp).toLocaleDateString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : "Recent Session";
+
+                    const itemRow = document.createElement("div");
+                    itemRow.className = "history-vault-item";
+                    itemRow.innerHTML = `
+                        <div>
+                            <span>${record.flawTitle}</span>
+                            <small class="history-date">📅 ${cleanDate} (${record.clubMode.toUpperCase()} Mode)</small>
+                        </div>
+                        <a href="#" class="launch-drill-link" onclick="loadSavedDrillRoute('${record.clubMode}', '${record.flawKey}', 'history-modal')">Recall ➔</a>
+                    `;
+                    displayList.appendChild(itemRow);
+                });
+            } catch (err) {
+                console.error("Firestore database extraction fault state returned: ", err);
+                displayList.innerHTML = `<p style="font-size:12px; color:#ef4444; text-align:center; padding:15px 0;">⚠️ Connection Exception: Unable to load history. Verify database indexes have completed creation.</p>`;
+            }
+        };
     </script>
 </body>
 </html>
